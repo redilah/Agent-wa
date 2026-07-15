@@ -1,0 +1,96 @@
+/* ConfigPanel.css */
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.config-settings-card,
+.config-features-card {
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.config-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+.cfg-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-dark);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.cfg-input:focus { border-color: var(--accent-emerald); }
+.cfg-textarea { resize: vertical; min-height: 160px; line-height: 1.6; }
+select.cfg-input { cursor: pointer; }
+
+.webhook-row { display: flex; gap: 8px; align-items: center; }
+.webhook-row .cfg-input { flex: 1; font-family: var(--font-mono); font-size: 12px; }
+
+/* Toggle List */
+.toggle-list { display: flex; flex-direction: column; gap: 12px; }
+
+.toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+.toggle-card:hover { border-color: var(--card-border-hover); }
+
+.toggle-info { flex: 1; }
+.toggle-label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.toggle-desc  { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* iOS Toggle Switch */
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute; inset: 0;
+  background: var(--card-border);
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  left: 3px; bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.switch input:checked + .slider { background: var(--accent-emerald); }
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+  box-shadow: 0 0 8px var(--accent-emerald);
+}
+
+@media (max-width: 1024px) {
+  .config-grid { grid-template-columns: 1fr; }
+}

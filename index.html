@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regalia Agent WA - Google Antigravity Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,slnt,wdth,wght,ROND@8..144,-10..0,25..150,300..700,0..100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@24,400,0,0&display=block" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism and specific gradients custom utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-input {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+            height: 50px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-input:focus {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .glass-input-group {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            height: 50px !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* intl-tel-input Glassmorphism Overrides */
+        .iti { width: 100%; display: block !important; }
+        .iti__dropdown-content {
+            background: rgba(15, 17, 26, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 0.75rem !important;
+            color: white !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+            margin-top: 5px;
+        }
+        .iti__search-input {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            border-radius: 0.5rem;
+        }
+        .iti__country { padding: 10px 15px !important; }
+        .iti__country.iti__highlight { background-color: rgba(255, 255, 255, 0.1) !important; }
+        .iti__selected-dial-code { color: white !important; }
+        .iti__arrow { border-top-color: rgba(255,255,255,0.7) !important; }
+        .iti__arrow--up { border-bottom-color: rgba(255,255,255,0.7) !important; }
+
+        .glass-input-group {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-input-group:focus-within {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+
+        /* Prevent white background on autocomplete autofill */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.4) inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        .glass-button-social {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        .glass-button-social:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .bg-gradient-main {
+            background: linear-gradient(180deg, #0f111a 0%, #0d1428 50%, #1a49ab 100%);
+        }
+
+        .bg-gradient-primary-btn {
+            background: linear-gradient(90deg, #4f86f7 0%, #3b74e6 100%);
+            box-shadow: 0 4px 14px 0 rgba(79, 134, 247, 0.39);
+        }
+        
+        .bg-gradient-primary-btn:hover {
+            background: linear-gradient(90deg, #5f96ff 0%, #4b84f6 100%);
+        }
+
+        /* Custom placeholder color */
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.4) !important;
+        }
+    </style>
+    <!-- Google Identity Services (Google Auth) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- intl-tel-input -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
+</head>
+<body>
+    <!-- Subtle Background Glows -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Access Portal (Login / Register Card) -->
+    <div id="access-portal" class="access-portal-container bg-gradient-main">
+        <main class="w-full max-w-[380px] relative z-10">
+            <!-- BEGIN: GlassCard -->
+            <div class="glass-card rounded-[1.5rem] p-6 relative overflow-hidden" data-purpose="signup-card">
+                <!-- Ambient background glows for glass effect -->
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 pointer-events-none"></div>
+                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 pointer-events-none"></div>
+                
+                <!-- BEGIN: Header -->
+                <header class="flex justify-between items-center mb-5 relative z-10" data-purpose="card-header">
+                    <!-- Toggle Switch -->
+                    <div class="flex bg-black/40 rounded-full p-1 border border-white/10" data-purpose="auth-toggle">
+                        <button id="tab-register" onclick="switchPortalTab('register')" class="px-6 py-2 rounded-full bg-white/10 text-sm font-medium text-white shadow-sm transition-colors border-0 cursor-pointer">Sign up</button>
+                        <button id="tab-login" onclick="switchPortalTab('login')" class="px-6 py-2 rounded-full text-sm font-medium text-white/50 hover:text-white transition-colors border-0 bg-transparent cursor-pointer">Sign in</button>
+                    </div>
+                    <!-- Close Button -->
+                    <button aria-label="Close" onclick="handleBypassLogin()" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                        <svg class="h-5 w-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                    </button>
+                </header>
+                <!-- END: Header -->
+
+                <!-- BEGIN: Login Form -->
+                <form id="form-login" class="portal-form space-y-px relative z-10 hidden" onsubmit="handleAuth(event, 'login')">
+                    <h1 class="text-xl font-semibold mb-4 tracking-tight text-white">Sign In to Regalia</h1>
+                    
+                    <!-- Email -->
+                    <div class="relative">
+                        <label class="sr-only" for="login-email">Email</label>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                            </svg>
+                        </div>
+                        <input class="glass-input w-full rounded-xl pl-11 pr-4 py-2.5 text-sm text-white focus:ring-0" id="login-email" name="email" placeholder="Enter your email" type="email" required autocomplete="username"/>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="relative">
+                        <label class="sr-only" for="login-password">Password</label>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                            </svg>
+                        </div>
+                        <input class="glass-input w-full rounded-xl pl-11 pr-4 py-2.5 text-sm text-white focus:ring-0" id="login-password" name="password" placeholder="Password" type="password" required autocomplete="current-password"/>
+                    </div>
+
+                    <!-- Form Options -->
+                    <div class="flex justify-between items-center text-xs text-white/60 py-0.5">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" checked class="rounded border-white/10 bg-black/40 text-blue-500 focus:ring-0 focus:ring-offset-0"/>
+                            <span>Keep me signed in</span>
+                        </label>
+                        <a href="#" class="text-white/60 hover:text-white transition-colors" onclick="triggerToast('Reset link simulated.', 'info')">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="bg-gradient-primary-btn w-full rounded-xl py-2.5 mt-3 text-sm font-medium text-white transition-transform active:scale-[0.98] border-0 cursor-pointer" type="submit">
+                        let's go login
+                    </button>
+
+                    <!-- Bypass Button -->
+                    <button type="button" class="w-full rounded-xl py-2 border border-dashed border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition-colors text-sm font-medium flex items-center justify-center gap-2 cursor-pointer mt-1" onclick="handleBypassLogin()">
+                        <span class="google-symbols notranslate" translate="no">play_circle</span>
+                        <span>Bypass Authentication (Demo Mode)</span>
+                    </button>
+                </form>
+                <!-- END: Login Form -->
+
+                <!-- BEGIN: Register Form -->
+                <form id="form-register" class="portal-form active space-y-px relative z-10" onsubmit="handleAuth(event, 'register')">
+                    <h1 class="text-xl font-semibold mb-4 tracking-tight text-white">Create an account</h1>
+                    
+                    <!-- Name Row -->
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <label class="sr-only" for="firstName">First name</label>
+                            <input class="glass-input w-full rounded-xl px-4 py-2.5 text-sm text-white focus:ring-0" id="firstName" name="firstName" placeholder="First name" type="text" value="John"/>
+                        </div>
+                        <div class="flex-1 relative">
+                            <label class="sr-only" for="lastName">Last name</label>
+                            <input class="glass-input w-full rounded-xl px-4 py-2.5 text-sm text-white focus:ring-0" id="lastName" name="lastName" placeholder="Last name" type="text"/>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="relative">
+                        <label class="sr-only" for="reg-email">Email</label>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                            </svg>
+                        </div>
+                        <input class="glass-input w-full rounded-xl pl-11 pr-4 py-2.5 text-sm text-white focus:ring-0" id="reg-email" name="email" placeholder="Enter your email" type="email" required/>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="relative">
+                        <label class="sr-only" for="phone">Phone number</label>
+                        <input class="glass-input w-full rounded-xl pr-4 text-sm text-white focus:ring-0 placeholder-white/40" id="phone" name="phone" placeholder="Phone number" type="tel" style="padding-left: 80px !important;" />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="bg-gradient-primary-btn w-full rounded-xl py-2.5 mt-4 text-sm font-medium text-white transition-transform active:scale-[0.98] border-0 cursor-pointer" type="submit">
+                        Create an account
+                    </button>
+
+                    <!-- BEGIN: Divider -->
+                    <div class="relative flex items-center py-3.5 z-10" data-purpose="divider">
+                        <div class="flex-grow border-t border-white/10"></div>
+                        <span class="flex-shrink-0 mx-4 text-white/30 text-xs font-medium tracking-wider">OR SIGN IN WITH</span>
+                        <div class="flex-grow border-t border-white/10"></div>
+                    </div>
+                    <!-- END: Divider -->
+
+                    <!-- BEGIN: Social Login -->
+                    <div class="flex gap-4 z-10 relative mb-2" data-purpose="social-login">
+                        <!-- Google with Official Integration overlaid -->
+                        <div class="relative flex-1">
+                            <button type="button" aria-label="Sign in with Google" class="glass-button-social w-full rounded-xl py-2 flex items-center justify-center transition-transform active:scale-95 cursor-pointer">
+                                <img alt="Google Logo" class="w-5 h-5" style="width: 20px; height: 20px;" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGKuBjgqBXwbIY7VOSGgDhhsKpxfrMZUvZjH2cA8z8if31v_yldSrwxmuBTItkaqfaw1x15eSl4Jjgkm2jH2iNjPiW73VueUInPs8kKNxncauNqXvwPobX0lFudNIMfUdbWNA4C5D9lzJPMwXQH06mmGrVWYRP2BixWBHlLanh_p8Lsq6DcWlW1msA4ASacm8V1FXiozI_C2UGxP23QEpqaUxxljMJu3ib3xdMqlN8DvVjEucL8__r"/>
+                            </button>
+                            <!-- Invisible container for Google Identity Services overlaid perfectly -->
+                            <div class="absolute inset-0 opacity-0 overflow-hidden cursor-pointer">
+                                <div id="g_id_onload"
+                                     data-client_id="1029384756-dummyclientid.apps.googleusercontent.com"
+                                     data-context="signin"
+                                     data-ux_mode="popup"
+                                     data-callback="handleGoogleSignIn"
+                                     data-auto_prompt="false">
+                                </div>
+                                <div class="g_id_signin"
+                                     data-type="standard"
+                                     data-shape="rectangular"
+                                     data-theme="filled_black"
+                                     data-text="signin_with"
+                                     data-size="large"
+                                     data-logo_alignment="left"
+                                     data-width="200">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Apple -->
+                        <button type="button" aria-label="Sign in with Apple" class="glass-button-social flex-1 rounded-xl py-2 flex items-center justify-center transition-transform active:scale-95 cursor-pointer" onclick="triggerToast('Apple Login is currently simulation only.', 'info')">
+                            <svg class="w-6 h-6 text-white" style="width: 24px; height: 24px;" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.365 14.384v.05c-.015-3.328 2.62-4.908 2.74-4.98-1.503-2.29-3.793-2.618-4.63-2.665-1.954-.202-3.834 1.183-4.838 1.183-1.004 0-2.553-1.15-4.183-1.118-2.12.04-4.084 1.265-5.18 3.224-2.22 3.94-.567 9.775 1.583 12.983 1.05 1.564 2.292 3.32 3.905 3.256 1.554-.066 2.152-1.034 4.02-1.034 1.865 0 2.404 1.034 4.02 1.002 1.678-.032 2.75-1.624 3.79-3.187 1.205-1.802 1.705-3.548 1.727-3.64-.038-.016-3.325-1.306-3.34-5.024zm-2.73-8.835c.85-1.054 1.424-2.518 1.267-3.985-1.22.05-2.72.83-3.597 1.88-.7.838-1.385 2.336-1.196 3.774 1.36.108 2.76-.704 3.526-1.67z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- END: Social Login -->
+                </form>
+                <!-- END: Register Form -->
+
+                <!-- BEGIN: Footer Terms -->
+                <p class="text-center text-white/40 text-xs mt-3 relative z-10" data-purpose="terms">
+                    By creating an account, you agree to our Terms & Service
+                </p>
+                <!-- END: Footer Terms -->
+            </div>
+            <!-- END: GlassCard -->
+        </main>
+    </div>
+
+    <!-- Main Dashboard Container (hidden by default, shown upon auth) -->
+    <div id="main-dashboard" class="dashboard-container hidden">
+        <!-- Sidebar Navigation Rail -->
+        <aside class="sidebar glass">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <span class="google-symbols notranslate emerald-text" translate="no">verified</span>
+                    <span class="brand-text">REGALIA <span class="emerald-text">WA</span></span>
+                </div>
+                <div class="agent-status-badge">
+                    <span class="pulse-dot"></span>
+                    <span class="status-label">SYS_ONLINE</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <button class="nav-item active" onclick="switchPanel('overview')" data-panel="overview">
+                            <span class="google-symbols notranslate" translate="no">dashboard</span>
+                            <span>Overview</span>
+                            <span class="nav-glow"></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchPanel('config')" data-panel="config">
+                            <span class="google-symbols notranslate" translate="no">tune</span>
+                            <span>Agent Config</span>
+                            <span class="nav-glow"></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchPanel('sandbox')" data-panel="sandbox">
+                            <span class="google-symbols notranslate" translate="no">terminal</span>
+                            <span>Interactive Sandbox</span>
+                            <span class="nav-glow"></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchPanel('analytics')" data-panel="analytics">
+                            <span class="google-symbols notranslate" translate="no">trending_up</span>
+                            <span>Analytics</span>
+                            <span class="nav-glow"></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchPanel('logs')" data-panel="logs">
+                            <span class="google-symbols notranslate" translate="no">article</span>
+                            <span>System Logs</span>
+                            <span class="nav-glow"></span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" alt="Avatar" class="profile-avatar">
+                    <div class="profile-info">
+                        <span class="profile-name">Admin User</span>
+                        <span class="profile-role">Root Authority</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="handleLogout()" title="Sign Out">
+                    <span class="google-symbols notranslate" translate="no">logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="main-header glass">
+                <div class="header-title-area">
+                    <h1 id="header-title">Overview</h1>
+                    <p id="header-subtitle" class="text-secondary">System monitoring, status codes, and active agent threads</p>
+                </div>
+                <div class="header-actions">
+                    <div class="connection-status glass">
+                        <div class="pulse-indicator green"></div>
+                        <span>WhatsApp API: Connected</span>
+                    </div>
+                    <button class="btn-icon-glass" onclick="triggerToast('System status refreshed.', 'info')" title="Sync Data">
+                        <span class="google-symbols notranslate" translate="no">refresh</span>
+                    </button>
+                    <button class="btn-icon-glass" onclick="toggleTheme()" title="Toggle Visual Style">
+                        <span class="google-symbols notranslate" translate="no" id="theme-icon">dark_mode</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Panel Viewport -->
+            <div class="panel-viewport">
+                
+                <!-- OVERVIEW PANEL -->
+                <section id="panel-overview" class="dashboard-panel active">
+                    <!-- Metric Cards Row -->
+                    <div class="metrics-grid">
+                        <div class="metric-card glass">
+                            <div class="metric-icon-wrap emerald-glow-box">
+                                <span class="google-symbols notranslate emerald-text" translate="no">chat</span>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Active Chats</span>
+                                <h2 class="metric-value" id="metric-active-chats">42</h2>
+                                <span class="metric-change positive"><span class="google-symbols notranslate" translate="no">arrow_outward</span> +12% vs last hr</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card glass">
+                            <div class="metric-icon-wrap emerald-glow-box">
+                                <span class="google-symbols notranslate emerald-text" translate="no">insights</span>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">API Success Rate</span>
+                                <h2 class="metric-value">99.8%</h2>
+                                <span class="metric-change positive"><span class="google-symbols notranslate" translate="no">arrow_outward</span> +0.02%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card glass">
+                            <div class="metric-icon-wrap emerald-glow-box">
+                                <span class="google-symbols notranslate emerald-text" translate="no">bolt</span>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Avg. Response Time</span>
+                                <h2 class="metric-value">180ms</h2>
+                                <span class="metric-change positive"><span class="google-symbols notranslate" translate="no">south_east</span> -15ms lower</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card glass">
+                            <div class="metric-icon-wrap emerald-glow-box">
+                                <span class="google-symbols notranslate emerald-text" translate="no">memory</span>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Model Call Count</span>
+                                <h2 class="metric-value">1,482</h2>
+                                <span class="metric-change positive"><span class="google-symbols notranslate" translate="no">arrow_outward</span> +8.4% today</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Middle Section: Main charts & Stats -->
+                    <div class="panel-row-2">
+                        <div class="chart-container glass">
+                            <div class="container-header">
+                                <h3>Conversations Traffic</h3>
+                                <div class="timeframe-selector">
+                                    <button class="btn-time active">1H</button>
+                                    <button class="btn-time">24H</button>
+                                    <button class="btn-time">7D</button>
+                                </div>
+                            </div>
+                            <!-- SVG Mini Chart Visualization -->
+                            <div class="svg-chart-wrapper">
+                                <svg viewBox="0 0 500 200" class="sparkline-large">
+                                    <defs>
+                                        <linearGradient id="emerald-gradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="var(--accent-emerald)" stop-opacity="0.4"/>
+                                            <stop offset="100%" stop-color="var(--accent-emerald)" stop-opacity="0.0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Grid lines -->
+                                    <line x1="0" y1="50" x2="500" y2="50" stroke="var(--card-border)" stroke-dasharray="4"/>
+                                    <line x1="0" y1="100" x2="500" y2="100" stroke="var(--card-border)" stroke-dasharray="4"/>
+                                    <line x1="0" y1="150" x2="500" y2="150" stroke="var(--card-border)" stroke-dasharray="4"/>
+                                    
+                                    <!-- Area under path -->
+                                    <path d="M 0 170 Q 50 140 100 150 T 200 80 T 300 120 T 400 60 T 500 40 L 500 200 L 0 200 Z" fill="url(#emerald-gradient)"/>
+                                    <!-- Stroke line -->
+                                    <path d="M 0 170 Q 50 140 100 150 T 200 80 T 300 120 T 400 60 T 500 40" fill="none" stroke="var(--accent-emerald)" stroke-width="3"/>
+                                    
+                                    <!-- Interactive Dots -->
+                                    <circle cx="200" cy="80" r="5" fill="var(--accent-emerald)" class="pulse-glow-dot"/>
+                                    <circle cx="500" cy="40" r="5" fill="var(--accent-emerald)" class="pulse-glow-dot"/>
+                                </svg>
+                                <div class="chart-labels">
+                                    <span>11:00 AM</span>
+                                    <span>11:15 AM</span>
+                                    <span>11:30 AM</span>
+                                    <span>11:45 AM</span>
+                                    <span>12:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Health Status -->
+                        <div class="health-card-container glass">
+                            <div class="container-header">
+                                <h3>Orchestrator Health</h3>
+                                <span class="text-accent text-sm">UPTIME: 99.98%</span>
+                            </div>
+                            <div class="health-list">
+                                <div class="health-item">
+                                    <div class="health-label-group">
+                                        <span class="health-name">LLM Router Engine</span>
+                                        <span class="health-desc text-secondary">Latency: 142ms</span>
+                                    </div>
+                                    <span class="badge green">NOMINAL</span>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label-group">
+                                        <span class="health-name">WhatsApp Webhook Listener</span>
+                                        <span class="health-desc text-secondary">Baileys Client Socket</span>
+                                    </div>
+                                    <span class="badge green">NOMINAL</span>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label-group">
+                                        <span class="health-name">PostgreSQL Vector DB</span>
+                                        <span class="health-desc text-secondary">Storage: 2.1GB / 20GB</span>
+                                    </div>
+                                    <span class="badge green">NOMINAL</span>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label-group">
+                                        <span class="health-name">Shipping Rate API (CekOngkir)</span>
+                                        <span class="health-desc text-secondary">Endpoint Ping: 42ms</span>
+                                    </div>
+                                    <span class="badge green">NOMINAL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Logs Preview -->
+                    <div class="recent-events glass">
+                        <div class="container-header">
+                            <h3>Real-time Node Event Stream</h3>
+                            <button class="btn-text-emerald" onclick="switchPanel('logs')">View Complete Log Console</button>
+                        </div>
+                        <div class="mini-console-log-list" id="mini-console-logs">
+                            <!-- JS will inject real-time logs here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONFIGURATION PANEL -->
+                <section id="panel-config" class="dashboard-panel">
+                    <div class="config-grid">
+                        <!-- Left configuration inputs -->
+                        <div class="config-settings-card glass">
+                            <div class="container-header">
+                                <h3>Agent Personality & Routing</h3>
+                                <p class="text-secondary text-sm">Configure core behavior parameters and base LLM models</p>
+                            </div>
+                            <form id="agent-config-form" class="config-form" onsubmit="saveConfiguration(event)">
+                                <div class="form-row">
+                                    <div class="form-group flex-1">
+                                        <label for="cfg-agent-name"><span class="google-symbols notranslate" translate="no">label</span> Agent Identity</label>
+                                        <input type="text" id="cfg-agent-name" value="Regalia Concierge WA" required>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label for="cfg-model"><span class="google-symbols notranslate" translate="no">memory</span> Foundation LLM</label>
+                                        <select id="cfg-model">
+                                            <option value="gpt-4o" selected>GPT-4o (Recommended)</option>
+                                            <option value="claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                                            <option value="llama-3.1-70b">Llama 3.1 70B (Local Inference)</option>
+                                            <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cfg-system-prompt"><span class="google-symbols notranslate" translate="no">description</span> System Orchestration Instructions</label>
+                                    <textarea id="cfg-system-prompt" rows="8">You are the official Regalia Customer Representative on WhatsApp.
+Your communication protocols are:
+1. Detect slang language context ("sabi", "mager", "kuy", etc.) and respond with matching respectful but modern business-casual slang.
+2. If customer requests shipping fee details, execute the "cek_ongkir" tool.
+3. If customer writes in Javanese, translate parameters appropriately, execute actions, and reply in polite, high-level Javanese (Krama Alus).
+4. For complaints and angry inquiries, lower priority of sales pitch, prioritize customer empathy, and immediately display escalations if necessary. Be helpful and professional.</textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group flex-1">
+                                        <label for="cfg-temp-display"><span class="google-symbols notranslate" translate="no">thermostat</span> Inference Temperature (<span id="temp-val">0.45</span>)</label>
+                                        <input type="range" id="cfg-temp" min="0" max="1" step="0.05" value="0.45" oninput="document.getElementById('temp-val').innerText = this.value">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label for="cfg-max-tokens"><span class="google-symbols notranslate" translate="no">layers</span> Max Tokens Output</label>
+                                        <input type="number" id="cfg-max-tokens" value="1024" min="256" max="4096">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cfg-webhook"><span class="google-symbols notranslate" translate="no">link</span> WhatsApp Webhook Gateway URL</label>
+                                    <div class="input-with-button">
+                                        <input type="text" id="cfg-webhook" value="https://api.regalia.ai/v1/webhook/whatsapp/receive" readonly>
+                                        <button type="button" class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('cfg-webhook').value); triggerToast('Copied to clipboard!', 'info')">
+                                            <span class="google-symbols notranslate" translate="no">content_copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions-right">
+                                    <button type="submit" class="btn-primary glow-button">
+                                        <span class="google-symbols notranslate" translate="no">save</span>
+                                        <span>Persist Configurations</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Right toggles card -->
+                        <div class="config-features-card glass">
+                            <div class="container-header">
+                                <h3>Engine Automation Toggles</h3>
+                                <p class="text-secondary text-sm">Enable or disable middleware routing algorithms</p>
+                            </div>
+                            <div class="toggle-list">
+                                <div class="toggle-card">
+                                    <div class="toggle-details">
+                                        <span class="toggle-title">Slang Engine (Slang-Consult-v2)</span>
+                                        <p class="text-secondary text-xs">Dynamically matches user's casual slang level to build rapport.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="toggle-slang" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-card">
+                                    <div class="toggle-details">
+                                        <span class="toggle-title">Javanese Translation Router</span>
+                                        <p class="text-secondary text-xs">Translates Krama Alus input, executes local APIs, and formats back to Javanese.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="toggle-java" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-card">
+                                    <div class="toggle-details">
+                                        <span class="toggle-title">CekOngkir Tool Integration</span>
+                                        <p class="text-secondary text-xs">Exposes third-party shipping fee endpoints to the LLM agent.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="toggle-ongkir" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-card">
+                                    <div class="toggle-details">
+                                        <span class="toggle-title">Sentiment & Anger De-escalation</span>
+                                        <p class="text-secondary text-xs">Switches system prompt template dynamically when user shows high stress levels.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="toggle-anger" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-card">
+                                    <div class="toggle-details">
+                                        <span class="toggle-title">Human Fallback Protocol</span>
+                                        <p class="text-secondary text-xs">Routes chat to human operator when AI confidence drops below 80%.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="toggle-fallback" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- INTERACTIVE SANDBOX PANEL -->
+                <section id="panel-sandbox" class="dashboard-panel">
+                    <div class="sandbox-layout">
+                        <!-- Left Panel: Presets & Controls -->
+                        <div class="sandbox-controls glass">
+                            <div class="container-header">
+                                <h3>Quick Sandbox Presets</h3>
+                                <p class="text-secondary text-sm">Simulate immediate user interactions with specific agent routing behaviors.</p>
+                            </div>
+
+                            <div class="preset-buttons-group">
+                                <button class="btn-preset emerald-glow-box" onclick="triggerPreset('slang')">
+                                    <div class="preset-header">
+                                        <span class="preset-tag slang">Casual Slang</span>
+                                        <span class="google-symbols notranslate preset-icon text-accent" translate="no">bolt</span>
+                                    </div>
+                                    <span class="preset-title">Slang Consultation</span>
+                                    <p class="preset-preview text-secondary">"halo gan, ready ga barangnya? sabi kali diskon dikit..."</p>
+                                </button>
+
+                                <button class="btn-preset emerald-glow-box" onclick="triggerPreset('javanese')">
+                                    <div class="preset-header">
+                                        <span class="preset-tag javanese">Javanese (Krama)</span>
+                                        <span class="google-symbols notranslate preset-icon text-accent" translate="no">language</span>
+                                    </div>
+                                    <span class="preset-title">Javanese Shipping inquiry</span>
+                                    <p class="preset-preview text-secondary">"Kirim dhateng Surabaya pinten nggih ongkiripun?"</p>
+                                </button>
+
+                                <button class="btn-preset emerald-glow-box" onclick="triggerPreset('complaint')">
+                                    <div class="preset-header">
+                                        <span class="preset-tag anger">Anger / Complaint</span>
+                                        <span class="google-symbols notranslate preset-icon text-accent" translate="no">warning</span>
+                                    </div>
+                                    <span class="preset-title">Anger De-escalation Case</span>
+                                    <p class="preset-preview text-secondary">"WOI! Barang saya pecah nih! Tanggung jawab dong!"</p>
+                                </button>
+                            </div>
+
+                            <div class="sandbox-custom-input-box">
+                                <div class="form-group">
+                                    <label for="custom-input-message"><span class="google-symbols notranslate" translate="no">edit</span> Custom User Input Simulator</label>
+                                    <textarea id="custom-input-message" rows="3" placeholder="Type a custom query here..."></textarea>
+                                </div>
+                                <div class="sandbox-input-actions">
+                                    <div class="latency-slider">
+                                        <label for="latency-val">Delay: <span id="latency-display">1.2</span>s</label>
+                                        <input type="range" id="latency-val" min="0.5" max="4.0" step="0.1" value="1.2" oninput="document.getElementById('latency-display').innerText = this.value">
+                                    </div>
+                                    <button class="btn-primary glow-button" onclick="sendCustomMessage()">
+                                        <span>Inject Msg</span>
+                                        <span class="google-symbols notranslate" translate="no">send</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: WhatsApp Mock Chat & Real-Time Terminal -->
+                        <div class="sandbox-displays">
+                            <!-- WhatsApp Interface Mockup -->
+                            <div class="wa-mockup glass">
+                                <div class="wa-header">
+                                    <div class="wa-user-avatar">
+                                        <div class="avatar-ring">
+                                            <span class="google-symbols notranslate emerald-text" translate="no">smart_toy</span>
+                                        </div>
+                                    </div>
+                                    <div class="wa-header-info">
+                                        <span class="wa-agent-name" id="wa-name">Regalia Concierge WA</span>
+                                        <span class="wa-status" id="wa-typing-status">online</span>
+                                    </div>
+                                    <div class="wa-actions">
+                                        <span class="google-symbols notranslate" translate="no">videocam</span>
+                                        <span class="google-symbols notranslate" translate="no">call</span>
+                                        <span class="google-symbols notranslate cursor-pointer" translate="no" onclick="clearChatHistory()">more_vert</span>
+                                    </div>
+                                </div>
+
+                                <div class="wa-body" id="chat-box">
+                                    <!-- Messages dynamic injector -->
+                                    <div class="wa-system-time">TODAY</div>
+                                    
+                                    <div class="wa-bubble customer">
+                                        <div class="bubble-content">Halo admin, mau tanya-tanya dong.</div>
+                                        <div class="bubble-time">11:45 AM</div>
+                                    </div>
+
+                                    <div class="wa-bubble agent">
+                                        <div class="bubble-content">Halo! Selamat datang di Regalia Concierge. Ada yang bisa saya bantu hari ini? 😊</div>
+                                        <div class="bubble-time">11:45 AM</div>
+                                    </div>
+
+                                    <!-- Typing Indicator Placeholder -->
+                                    <div class="typing-indicator-bubble hidden" id="typing-indicator">
+                                        <span class="dot"></span>
+                                        <span class="dot"></span>
+                                        <span class="dot"></span>
+                                    </div>
+                                </div>
+
+                                <div class="wa-footer">
+                                    <span class="google-symbols notranslate" translate="no">mood</span>
+                                    <span class="google-symbols notranslate" translate="no">attach_file</span>
+                                    <input type="text" id="wa-user-typing-field" placeholder="Type customer reply..." onkeypress="handleChatEnter(event)">
+                                    <button class="btn-wa-send" onclick="sendChatFromWaInput()"><span class="google-symbols notranslate" translate="no">send</span></button>
+                                </div>
+                            </div>
+
+                            <!-- Real-Time Log Terminal for API logs -->
+                            <div class="api-terminal glass">
+                                <div class="terminal-header">
+                                    <div class="terminal-dots">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                    </div>
+                                    <span class="terminal-title">Real-Time Routing JSON Pipeline</span>
+                                    <button class="terminal-btn-clear" onclick="clearTerminal()"><span class="google-symbols notranslate" translate="no">delete</span></button>
+                                </div>
+                                <div class="terminal-body" id="terminal-logs">
+                                    <div class="term-line timestamp">[11:56:46] <span class="term-info">SYSTEM:</span> WebSocket session initialized. Listening on port 8080...</div>
+                                    <div class="term-line timestamp">[11:56:47] <span class="term-success">SUCCESS:</span> Agent Configuration loaded. LLM model: gpt-4o.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ANALYTICS PANEL -->
+                <section id="panel-analytics" class="dashboard-panel">
+                    <div class="analytics-layout">
+                        <!-- Top stats grids -->
+                        <div class="analytics-overview-row">
+                            <div class="analytics-box glass">
+                                <h3>Classification Accuracy</h3>
+                                <div class="pie-chart-mock">
+                                    <svg viewBox="0 0 120 120" class="radial-progress-svg">
+                                        <circle cx="60" cy="60" r="50" class="radial-bg"></circle>
+                                        <circle cx="60" cy="60" r="50" class="radial-fg" stroke-dasharray="314" stroke-dashoffset="15"></circle>
+                                    </svg>
+                                    <div class="radial-percentage">95.2%</div>
+                                </div>
+                                <div class="pie-labels text-sm">
+                                    <span class="emerald-text"><span class="google-symbols notranslate" translate="no">check</span> 95.2% True Positive</span>
+                                    <span class="text-secondary"><span class="google-symbols notranslate" translate="no">close</span> 4.8% Fail Router</span>
+                                </div>
+                            </div>
+
+                            <div class="analytics-box glass">
+                                <h3>Customer Sentiment Distribution</h3>
+                                <div class="bar-chart-vertical">
+                                    <div class="bar-item">
+                                        <div class="bar-fill happy" style="height: 72%;"></div>
+                                        <span class="bar-lbl">Satisfied (72%)</span>
+                                    </div>
+                                    <div class="bar-item">
+                                        <div class="bar-fill neutral" style="height: 20%;"></div>
+                                        <span class="bar-lbl">Neutral (20%)</span>
+                                    </div>
+                                    <div class="bar-item">
+                                        <div class="bar-fill angry" style="height: 8%;"></div>
+                                        <span class="bar-lbl">Angry/Stressed (8%)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="analytics-box glass">
+                                <h3>Total Cost Optimization</h3>
+                                <div class="metric-block">
+                                    <span class="lbl">LLM Processing Cost (Monthly Est.)</span>
+                                    <h2>$14.28</h2>
+                                    <span class="text-accent text-xs">Saved ~ $120.40 compared to human reps</span>
+                                </div>
+                                <div class="token-breakdown text-xs">
+                                    <div><span>Cached tokens:</span> <span class="text-accent">82%</span></div>
+                                    <div><span>Tool execution:</span> <span class="text-accent">1,120 times</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Historical Grid Traffic -->
+                        <div class="analytics-bottom-row glass">
+                            <div class="container-header">
+                                <h3>Engine Trigger Frequency (By Tool)</h3>
+                                <button class="btn-secondary text-xs"><span class="google-symbols notranslate" translate="no">download</span> Export CSV</button>
+                            </div>
+                            <table class="analytics-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tool / Router Module</th>
+                                        <th>Requests Sent</th>
+                                        <th>Success Rate</th>
+                                        <th>Avg Execution Latency</th>
+                                        <th>Fallbacks Triggered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="badge blue">cek_ongkir</span></td>
+                                        <td>412</td>
+                                        <td>100%</td>
+                                        <td>38ms</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge blue">translate_krama</span></td>
+                                        <td>195</td>
+                                        <td>98.9%</td>
+                                        <td>95ms</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge blue">slang_matcher</span></td>
+                                        <td>843</td>
+                                        <td>99.4%</td>
+                                        <td>14ms</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge blue">deescalate_complaint</span></td>
+                                        <td>32</td>
+                                        <td>100%</td>
+                                        <td>110ms</td>
+                                        <td>0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SYSTEM LOGS PANEL -->
+                <section id="panel-logs" class="dashboard-panel">
+                    <div class="logs-layout-container glass">
+                        <div class="logs-header-bar">
+                            <div class="logs-filters">
+                                <button class="btn-filter active" onclick="filterLogs('ALL')">ALL</button>
+                                <button class="btn-filter" onclick="filterLogs('INFO')">INFO</button>
+                                <button class="btn-filter" onclick="filterLogs('WARN')">WARN</button>
+                                <button class="btn-filter" onclick="filterLogs('ERROR')">ERROR</button>
+                                <button class="btn-filter" onclick="filterLogs('DEBUG')">DEBUG</button>
+                            </div>
+                            <div class="logs-actions">
+                                <div class="search-input-wrap">
+                                    <span class="google-symbols notranslate" translate="no">search</span>
+                                    <input type="text" id="log-search-input" placeholder="Search event logs..." oninput="handleLogSearch()">
+                                </div>
+                                <button class="btn-secondary" onclick="exportLogs()"><span class="google-symbols notranslate" translate="no">open_in_new</span> Export</button>
+                                <button class="btn-secondary" onclick="clearMainLogs()"><span class="google-symbols notranslate" translate="no">delete</span> Clear</button>
+                            </div>
+                        </div>
+
+                        <!-- Logs Code Console -->
+                        <div class="logs-console" id="logs-console-window">
+                            <!-- Logs will be loaded dynamically here -->
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast Element -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Custom Script JS -->
+    <script src="app.js"></script>
+
+    <!-- intl-tel-input init -->
+    <script>
+        const phoneInput = document.querySelector("#phone");
+        if (phoneInput) {
+            window.intlTelInput(phoneInput, {
+                initialCountry: "id",
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js",
+                separateDialCode: true,
+                dropdownContainer: document.body,
+            });
+        }
+    </script>
+</body>
+</html>
