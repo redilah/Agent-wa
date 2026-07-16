@@ -4,6 +4,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { LoginPage }  from './components/LoginPage/LoginPage';
 import { Dashboard }  from './components/Dashboard/Dashboard';
 import { ToastContainer } from './components/Toast/Toast';
+import { PrivacyPolicyPage }  from './components/Legal/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/Legal/TermsOfServicePage';
 import { useWebSocket } from './hooks/useWebSocket';
 import { useToast }     from './hooks/useToast';
 import { getSettings }  from './api/client';
@@ -17,6 +19,11 @@ export default function App() {
   const [user, setUser]         = useState(null);   // null = belum login
   const [settings, setSettings] = useState(null);
   const [wsLogs, setWsLogs]     = useState([]);
+
+  // Default to dark theme on initial load
+  useEffect(() => {
+    document.body.classList.add('dark-theme');
+  }, []);
 
   const { toasts, addToast } = useToast();
 
@@ -76,6 +83,15 @@ export default function App() {
     setSettings(null);
     setWsLogs([]);
   };
+
+  // Check URL pathname for standalone Legal Document pages
+  const pathname = window.location.pathname;
+  if (pathname === '/privacy' || pathname === '/privacy-policy') {
+    return <PrivacyPolicyPage />;
+  }
+  if (pathname === '/terms' || pathname === '/terms-of-service') {
+    return <TermsOfServicePage />;
+  }
 
   return (
     <>

@@ -1,0 +1,251 @@
+/* PanelSkeleton.css */
+
+.panel-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: skeletonFadeIn 0.25s ease;
+}
+
+@keyframes skeletonFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skel-block {
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    var(--card-bg) 25%,
+    rgba(255,255,255,0.06) 50%,
+    var(--card-bg) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border: 1px solid var(--card-border);
+}
+
+/* Fade-in for the real panel after skeleton */
+.panel-fade-in {
+  animation: panelReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes panelReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════
+   OVERVIEW skeleton
+   ═══════════════════════════════ */
+.skel-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.skel-stat-card {
+  height: 110px;
+  border-radius: 12px;
+}
+
+.skel-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.skel-tall-card {
+  height: 280px;
+  border-radius: 12px;
+}
+
+/* ═══════════════════════════════
+   CONFIG skeleton
+   ═══════════════════════════════ */
+.skel-section-title {
+  height: 16px;
+  width: 35%;
+  border-radius: 6px;
+  border: none;
+}
+
+.skel-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.skel-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skel-label {
+  height: 12px;
+  width: 40%;
+  border-radius: 4px;
+  border: none;
+}
+
+.skel-input {
+  height: 44px;
+  border-radius: 8px;
+}
+
+.skel-textarea {
+  height: 120px;
+  border-radius: 8px;
+}
+
+.skel-toggle-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skel-toggle-row {
+  height: 48px;
+  border-radius: 8px;
+}
+
+.skel-save-btn {
+  height: 42px;
+  width: 140px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════
+   SANDBOX skeleton
+   ═══════════════════════════════ */
+.skel-sandbox-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  min-height: 480px;
+}
+
+.skel-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+.skel-phone-header {
+  height: 52px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.skel-chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.skel-bubble {
+  border-radius: 14px;
+  border: none;
+}
+
+.skel-bubble-left {
+  height: 40px;
+  width: 65%;
+  align-self: flex-start;
+}
+
+.skel-bubble-right {
+  height: 36px;
+  width: 50%;
+  align-self: flex-end;
+}
+
+.skel-bubble-long {
+  height: 56px;
+  width: 75%;
+}
+
+.skel-chat-input {
+  height: 50px;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--card-border);
+}
+
+.skel-sandbox-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skel-side-card {
+  height: 200px;
+  border-radius: 12px;
+}
+
+.skel-side-card-short {
+  height: 140px;
+}
+
+/* ═══════════════════════════════
+   ANALYTICS skeleton
+   ═══════════════════════════════ */
+.skel-chart-card {
+  height: 240px;
+  border-radius: 12px;
+}
+
+.skel-table-card {
+  height: 200px;
+  border-radius: 12px;
+}
+
+/* ═══════════════════════════════
+   LOGS skeleton
+   ═══════════════════════════════ */
+.skel-toolbar {
+  height: 48px;
+  border-radius: 10px;
+}
+
+.skel-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skel-log-row {
+  height: 32px;
+  border-radius: 6px;
+}
+
+/* ═══════════════════════════════
+   Responsive
+   ═══════════════════════════════ */
+@media (max-width: 1024px) {
+  .skel-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .skel-two-col,
+  .skel-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .skel-sandbox-layout {
+    grid-template-columns: 1fr;
+  }
+}

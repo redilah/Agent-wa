@@ -1,5 +1,6 @@
 // components/Sidebar/Sidebar.jsx
 
+import { useState } from 'react';
 import './Sidebar.css';
 
 const NAV_ITEMS = [
@@ -11,27 +12,27 @@ const NAV_ITEMS = [
 ];
 
 export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const initials = user?.name
     ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
     : 'U';
 
   return (
-    <aside className="sidebar glass">
+    <aside className={`sidebar glass ${collapsed ? 'collapsed' : ''}`}>
       {/* Brand */}
       <div className="sidebar-brand">
-        <div className="brand-row">
-          <div className="brand-icon">
-            <span className="google-symbols notranslate">smart_toy</span>
-          </div>
-          <div>
-            <div className="brand-name">Regalia Agent</div>
-            <div className="brand-sub">WA SaaS Platform</div>
-          </div>
-        </div>
-        <div className="agent-status-badge">
-          <span className="pulse-dot"></span>
-          AGENT ONLINE
-        </div>
+        {!collapsed && <div className="brand-name">Regalia</div>}
+        <button
+          className="sidebar-toggle-btn"
+          onClick={() => setCollapsed(prev => !prev)}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          <span className="google-symbols notranslate">
+            side_navigation
+          </span>
+        </button>
       </div>
 
       {/* Nav */}
@@ -42,10 +43,10 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
               <button
                 className={`nav-item ${activePanel === item.id ? 'active' : ''}`}
                 onClick={() => onPanelChange(item.id)}
+                title={collapsed ? item.label : undefined}
               >
-                <span className="nav-glow"></span>
-                <span className="google-symbols notranslate">{item.icon}</span>
-                {item.label}
+                <span className="nav-icon google-symbols notranslate">{item.icon}</span>
+                {!collapsed && <span className="nav-label">{item.label}</span>}
               </button>
             </li>
           ))}
@@ -54,22 +55,64 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
 
       {/* Footer */}
       <div className="sidebar-footer">
-        <div className="user-profile">
-          <div className="user-avatar">
-            {user?.picture
-              ? <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" />
-              : initials
-            }
+        <button 
+          className="user-profile-btn" 
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          title={collapsed ? 'Profile options' : undefined}
+        >
+          <div className="user-profile-content">
+            <div className="user-avatar">
+              {user?.picture
+                ? <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" />
+                : initials
+              }
+            </div>
+            {!collapsed && (
+              <div className="user-info">
+                <div className="user-name">{user?.name || 'User'}</div>
+                <div className="user-subtitle">Paket gratis</div>
+              </div>
+            )}
           </div>
-          <div className="user-info">
-            <div className="user-name">{user?.name || 'User'}</div>
-            <div className="user-email">{user?.email || ''}</div>
-          </div>
-        </div>
-        <button className="btn-logout" onClick={onLogout}>
-          <span className="google-symbols notranslate">logout</span>
-          Sign Out
+          {!collapsed && (
+            <span className="google-symbols notranslate unfold-icon">unfold_more</span>
+          )}
         </button>
+
+        {isDropdownOpen && (
+          <div className="profile-dropdown">
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">settings</span>
+              Pengaturan
+            </div>
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">language</span>
+              Bahasa
+            </div>
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">help</span>
+              Dapatkan bantuan
+            </div>
+            <div className="dropdown-divider"></div>
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">upgrade</span>
+              Tingkatkan paket
+            </div>
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">extension</span>
+              Dapatkan aplikasi dan ekstensi
+            </div>
+            <div className="dropdown-item">
+              <span className="google-symbols notranslate dropdown-icon">info</span>
+              Pelajari lebih lanjut
+            </div>
+            <div className="dropdown-divider"></div>
+            <div className="dropdown-item dropdown-item-danger" onClick={onLogout}>
+              <span className="google-symbols notranslate dropdown-icon">logout</span>
+              Keluar
+            </div>
+          </div>
+        )}
       </div>
     </aside>
   );

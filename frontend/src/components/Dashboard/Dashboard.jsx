@@ -1,12 +1,13 @@
 // components/Dashboard/Dashboard.jsx
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { OverviewPanel }   from '../panels/OverviewPanel/OverviewPanel';
 import { ConfigPanel }     from '../panels/ConfigPanel/ConfigPanel';
 import { SandboxPanel }    from '../panels/SandboxPanel/SandboxPanel';
 import { AnalyticsPanel }  from '../panels/AnalyticsPanel/AnalyticsPanel';
 import { LogsPanel }       from '../panels/LogsPanel/LogsPanel';
+import { PanelSkeleton }   from './PanelSkeleton';
 import './Dashboard.css';
 
 const PANEL_META = {
@@ -17,13 +18,40 @@ const PANEL_META = {
   logs:      { title: 'System Event Logs',      subtitle: 'Real-time diagnostic feed & event timeline' },
 };
 
+const SKELETON_DURATION = 500; // ms to show skeleton before revealing panel
+
 export function Dashboard({
   user, onLogout, addToast,
   settings, onSettingsSave,
   wsLogs, sendWsMessage,
 }) {
   const [activePanel, setActivePanel] = useState('overview');
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true); // default dark
+  const [isLoading, setIsLoading] = useState(false);
+  const [displayPanel, setDisplayPanel] = useState('overview');
+  const timerRef = useRef(null);
+
+  const handlePanelChange = (panelId) => {
+    if (panelId === activePanel) return;
+
+    // Start skeleton
+    setIsLoading(true);
+    setActivePanel(panelId);
+
+    // Clear any existing timer
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    // After delay, reveal the real panel
+    timerRef.current = setTimeout(() => {
+      setDisplayPanel(panelId);
+      setIsLoading(false);
+    }, SKELETON_DURATION);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
 
   const toggleTheme = () => {
     setIsDark(prev => {
@@ -39,7 +67,7 @@ export function Dashboard({
     <div className="dashboard-container" id="main-dashboard">
       <Sidebar
         activePanel={activePanel}
-        onPanelChange={setActivePanel}
+        onPanelChange={handlePanelChange}
         user={user}
         onLogout={onLogout}
       />
@@ -66,12 +94,18 @@ export function Dashboard({
           </div>
         </header>
 
-        <div className="panel-viewport" key={activePanel}>
-          {activePanel === 'overview'  && <OverviewPanel logs={wsLogs} />}
-          {activePanel === 'config'    && <ConfigPanel settings={settings} onSave={onSettingsSave} addToast={addToast} />}
-          {activePanel === 'sandbox'   && <SandboxPanel addToast={addToast} sendWsMessage={sendWsMessage} wsLogs={wsLogs} settings={settings} />}
-          {activePanel === 'analytics' && <AnalyticsPanel />}
-          {activePanel === 'logs'      && <LogsPanel logs={wsLogs} />}
+        <div className="panel-viewport">
+          {isLoading ? (
+            <PanelSkeleton panelId={activePanel} />
+          ) : (
+            <div className="panel-fade-in" key={displayPanel}>
+              {displayPanel === 'overview'  && <OverviewPanel logs={wsLogs} />}
+              {displayPanel === 'config'    && <ConfigPanel settings={settings} onSave={onSettingsSave} addToast={addToast} />}
+              {displayPanel === 'sandbox'   && <SandboxPanel addToast={addToast} sendWsMessage={sendWsMessage} wsLogs={wsLogs} settings={settings} />}
+              {displayPanel === 'analytics' && <AnalyticsPanel />}
+              {displayPanel === 'logs'      && <LogsPanel logs={wsLogs} />}
+            </div>
+          )}
         </div>
       </main>
     </div>

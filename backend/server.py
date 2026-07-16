@@ -133,8 +133,12 @@ FRONTEND_DIR = pathlib.Path(__file__).parent.parent / "frontend-dist"
 # ==========================================
 
 @app.get("/")
+@app.get("/privacy")
+@app.get("/privacy-policy")
+@app.get("/terms")
+@app.get("/terms-of-service")
 async def serve_frontend():
-    """Serve React dashboard frontend (index.html)."""
+    """Serve React dashboard frontend (index.html) and SPA routes."""
     index_path = FRONTEND_DIR / "index.html"
     if index_path.exists():
         return FileResponse(str(index_path), media_type="text/html")

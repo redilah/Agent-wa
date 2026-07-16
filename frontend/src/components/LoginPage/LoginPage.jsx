@@ -15,6 +15,8 @@ export function LoginPage({ onLogin, addToast }) {
   const [isHidden, setIsHidden] = useState(false);
   const [phone, setPhone] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const enterDashboard = (profile) => {
     setIsHidden(true);
@@ -67,6 +69,14 @@ export function LoginPage({ onLogin, addToast }) {
 
   return (
     <div className={`access-portal-container min-h-screen flex items-center justify-center p-4 ${isHidden ? 'hidden' : ''}`} id="access-portal">
+      {/* Water Ripple Background Elements (Straight/Clean Geometric Circles without Wobble) */}
+      <div className={`water-ripple-container ${isPaused ? 'paused' : ''}`}>
+        <div className="ripple ripple-1"></div>
+        <div className="ripple ripple-2"></div>
+        <div className="ripple ripple-3"></div>
+        <div className="ripple ripple-4"></div>
+      </div>
+
       <div className="portal-card glass-card w-full max-w-md p-6 sm:p-8 rounded-[2rem] relative overflow-hidden transition-all duration-500 hover:shadow-xl border border-white/10 group">
         
         {/* Header Toggle */}
@@ -225,8 +235,8 @@ export function LoginPage({ onLogin, addToast }) {
               <span className="text-sm font-medium">Continue with Google</span>
             </button>
           </div>
-          <p className="text-center text-white/40 text-xs mt-4 relative z-10">
-            By creating an account, you agree to our <a href="#" className="text-blue-400 hover:text-blue-300">Terms & Service</a>
+          <p className="text-center text-white/50 text-xs mt-4 relative z-10 leading-relaxed">
+            By creating an account, you agree to our <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white underline underline-offset-2 decoration-white/30 hover:decoration-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white underline underline-offset-2 decoration-white/30 hover:decoration-white/60 transition-colors">terms of service</a>.
           </p>
         </form>
 
@@ -297,6 +307,27 @@ export function LoginPage({ onLogin, addToast }) {
           </button>
         </form>
       </div>
+
+      {/* Floating Pause/Play Ripple Button at Bottom Right like YouTube */}
+      <button
+        type="button"
+        onClick={() => setIsPaused(!isPaused)}
+        className="ripple-control-btn"
+        aria-label={isPaused ? "Play background ripples" : "Pause background ripples"}
+        title={isPaused ? "Play background ripples" : "Pause background ripples"}
+      >
+        {isPaused ? (
+          /* Play Triangle Icon */
+          <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        ) : (
+          /* Pause Double-Bar Icon */
+          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
+        )}
+      </button>
     </div>
   );
 }

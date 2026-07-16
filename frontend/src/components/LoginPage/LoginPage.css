@@ -19,6 +19,7 @@
 
 .portal-card {
   position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 440px;
   padding: 40px;
@@ -262,4 +263,147 @@
 .btn-slide-black span {
     position: relative;
     z-index: 2;
+}
+
+/* ==========================================================================
+   Water Ripple Background Styles (Straight Clean Circles, Relaxed 16s Speed)
+   ========================================================================== */
+.water-ripple-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.water-ripple-container.paused .ripple {
+  animation-play-state: paused !important;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  /* Straight, clean, geometric cyan-white wave edges without wobble */
+  border: 2px solid rgba(180, 225, 255, 0.55);
+  /* Depth refraction & soft water glow */
+  box-shadow: 
+    inset 0 0 35px rgba(160, 215, 255, 0.28),
+    0 0 25px rgba(160, 215, 255, 0.32),
+    0 0 50px rgba(10, 80, 180, 0.22);
+  animation: water-ripple-expand 16s infinite linear;
+  opacity: 0;
+  pointer-events: none;
+  will-change: width, height, opacity;
+}
+
+.ripple-1 {
+  animation-delay: 0s;
+}
+
+.ripple-2 {
+  animation-delay: 4s;
+}
+
+.ripple-3 {
+  animation-delay: 8s;
+}
+
+.ripple-4 {
+  animation-delay: 12s;
+}
+
+@keyframes water-ripple-expand {
+  0% {
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    width: 1600px;
+    height: 1600px;
+    opacity: 0;
+  }
+}
+
+/* Floating YouTube-style Pause/Play Button */
+.ripple-control-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ripple-control-btn:hover {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+  box-shadow: 0 10px 28px rgba(59, 130, 246, 0.25);
+}
+
+.ripple-control-btn:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   Terms & Service Modal Animations and Custom Scrollbar
+   ========================================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
