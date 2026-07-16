@@ -234,3 +234,32 @@
   overflow: hidden;
   height: 0;
 }
+
+/* Black sliding hover effect from the center */
+.btn-slide-black {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-slide-black::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #050505 0%, #1a49ab 100%); /* Deep black to background blue */
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.btn-slide-black:hover::before {
+    clip-path: circle(150% at 50% 50%);
+}
+
+/* Ensure text is above the ::before layer */
+.btn-slide-black span {
+    position: relative;
+    z-index: 2;
+}

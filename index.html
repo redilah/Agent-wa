@@ -119,6 +119,35 @@
             background: linear-gradient(90deg, #5f96ff 0%, #4b84f6 100%);
         }
 
+        /* Black sliding hover effect from top right */
+        .btn-slide-black {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-slide-black::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505; /* Deep black */
+            clip-path: circle(0% at 100% 0%);
+            transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+        
+        .btn-slide-black:hover::before {
+            clip-path: circle(150% at 100% 0%);
+        }
+        
+        /* Ensure text is above the ::before layer */
+        .btn-slide-black span {
+            position: relative;
+            z-index: 2;
+        }
+
         /* Custom placeholder color */
         .glass-input::placeholder {
             color: rgba(255, 255, 255, 0.4) !important;
@@ -198,8 +227,8 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="bg-gradient-primary-btn w-full rounded-xl py-2.5 mt-3 text-sm font-medium text-white transition-transform active:scale-[0.98] border-0 cursor-pointer" type="submit">
-                        let's go login
+                    <button class="bg-gradient-primary-btn btn-slide-black w-full rounded-xl py-2.5 mt-3 text-sm font-medium text-white transition-transform active:scale-[0.98] border-0 cursor-pointer" type="submit">
+                        <span>let's go login</span>
                     </button>
 
                     <!-- Bypass Button -->

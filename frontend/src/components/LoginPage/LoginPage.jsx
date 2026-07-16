@@ -200,8 +200,8 @@ export function LoginPage({ onLogin, addToast }) {
             />
           </div>
 
-          <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 w-full rounded-xl py-3 !mt-[17px] text-sm font-medium text-white transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] border-0 cursor-pointer" type="submit">
-            Create an account
+          <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 btn-slide-black w-full rounded-xl py-3 !mt-[17px] text-sm font-medium text-white transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] border-0 cursor-pointer" type="submit">
+            <span>Create an account</span>
           </button>
 
           <div className="relative flex items-center py-5 z-10">
@@ -288,8 +288,8 @@ export function LoginPage({ onLogin, addToast }) {
             </button>
           </div>
 
-          <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 w-full rounded-xl py-3 !mt-[17px] text-sm font-medium text-white transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] border-0 cursor-pointer" type="submit">
-            Let's go login
+          <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 btn-slide-black w-full rounded-xl py-3 !mt-[17px] text-sm font-medium text-white transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] border-0 cursor-pointer" type="submit">
+            <span>Let's go login</span>
           </button>
 
           <button type="button" className="w-full rounded-xl py-2.5 mt-3 border border-dashed border-white/20 bg-white/5 hover:bg-white/10 text-white/70 transition-colors text-sm font-medium flex items-center justify-center gap-2 cursor-pointer bg-transparent" onClick={handleBypass}>
