@@ -64,5 +64,16 @@
   "saveConfigurationBtn": "कॉन्फ़िगरेशन सहेजें",
   "allChangesSavedText": "सभी बदलाव सहेजे जाएंगे और आपके एजेंट पर लागू किए जाएंगे।",
   "savedStatusText": "सहेजा गया",
-  "justNowText": "अभी-अभी"
+  "justNowText": "अभी-अभी",
+  "conversationsTrafficDesc": "वास्तविक समय संदेश विनिमय और उपयोगकर्ता सहभागिता दर",
+  "orchestratorHealthDesc": "आंतरिक सेवाओं और इंजनों के लिए वास्तविक समय की स्थिति",
+  "classificationAccuracyTitle": "वर्गीकरण सटीकता",
+  "classificationAccuracyDesc": "इरादा पहचान मॉडल सटीकता स्कोर",
+  "customerSentimentTitle": "ग्राहक भावना",
+  "customerSentimentDesc": "उपयोगकर्ता संदेश भावना स्थितियों का विश्लेषण",
+  "costOptimizationTitle": "लागत अनुकूलन",
+  "costOptimizationDesc": "मासिक एलएलएम बजट और टोकन आवंटन",
+  "engineTriggerFreqTitle": "इंजन ट्रिगर आवृत्ति",
+  "engineTriggerFreqDesc": "टूल निष्पादन कॉल का विस्तृत विवरण",
+  "exportCsvBtn": "सीएसवी निर्यात करें"
 }

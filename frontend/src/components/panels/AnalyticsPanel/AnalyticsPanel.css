@@ -8,18 +8,8 @@
   gap: 16px;
 }
 
-.analytics-box {
-  padding: 20px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.analytics-box-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-
 /* Radial */
-.radial-center { display: flex; justify-content: center; padding: 8px 0; }
+.radial-center { display: flex; justify-content: center; padding: 16px 0 8px 0; }
 .radial-label  { font-size: 11px; color: var(--text-muted); text-align: center; }
 
 /* Bar Chart */
@@ -29,6 +19,7 @@
   justify-content: center;
   gap: 20px;
   height: 120px;
+  margin-top: 10px;
 }
 .bar-group {
   display: flex;
@@ -55,19 +46,17 @@
 .bar-value  { font-size: 11px; font-weight: 600; color: var(--text-secondary); }
 
 /* Cost */
-.cost-metric { display: flex; flex-direction: column; gap: 2px; }
+.cost-metric { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
 .cost-label { font-size: 11px; color: var(--text-muted); }
 .cost-value { font-size: 24px; font-weight: 700; color: var(--text-primary); }
 .cost-sub   { font-size: 11px; }
 
 /* Table */
-.analytics-table-wrap { padding: 20px; border-radius: 12px; }
-
-.table-header {
+.table-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  width: 100%;
 }
 
 .analytics-table {
@@ -90,6 +79,6 @@
   color: var(--text-secondary);
   border-bottom: 1px solid var(--card-border);
 }
-.analytics-table tr:hover td { background: rgba(0,0,0,0.02); }
+.analytics-table tr:hover td { background: rgba(255,255,255,0.02); }
 .analytics-table tr:last-child td { border-bottom: none; }
 .tool-name { font-family: var(--font-mono); font-size: 12px; color: var(--accent-emerald); }

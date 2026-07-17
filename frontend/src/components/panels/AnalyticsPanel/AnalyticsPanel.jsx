@@ -1,5 +1,6 @@
 // panels/AnalyticsPanel/AnalyticsPanel.jsx
 
+import { useTranslation } from 'react-i18next';
 import './AnalyticsPanel.css';
 
 const TABLE_DATA = [
@@ -10,12 +11,24 @@ const TABLE_DATA = [
 ];
 
 export function AnalyticsPanel() {
+  const { t } = useTranslation();
+
   return (
     <div className="analytics-layout">
       <div className="analytics-top-row">
-        {/* Radial Chart */}
-        <div className="analytics-box glass">
-          <div className="analytics-box-title">Classification Accuracy</div>
+        
+        {/* Radial Chart Card */}
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="panel-icon-circle">
+              <span className="google-symbols notranslate">insights</span>
+            </div>
+            <div className="panel-title-block">
+              <h2 className="panel-title-text">{t('classificationAccuracyTitle')}</h2>
+              <p className="panel-desc-text">{t('classificationAccuracyDesc')}</p>
+            </div>
+          </div>
+          
           <div className="radial-center">
             <svg className="radial-progress-svg" viewBox="0 0 120 120" width="120" height="120">
               <circle cx="60" cy="60" r="50" fill="none" stroke="var(--card-border)" strokeWidth="12"/>
@@ -37,9 +50,18 @@ export function AnalyticsPanel() {
           <div className="radial-label">Intent Detection Score</div>
         </div>
 
-        {/* Bar Chart */}
-        <div className="analytics-box glass">
-          <div className="analytics-box-title">Customer Sentiment</div>
+        {/* Bar Chart Card */}
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="panel-icon-circle">
+              <span className="google-symbols notranslate">sentiment_satisfied</span>
+            </div>
+            <div className="panel-title-block">
+              <h2 className="panel-title-text">{t('customerSentimentTitle')}</h2>
+              <p className="panel-desc-text">{t('customerSentimentDesc')}</p>
+            </div>
+          </div>
+          
           <div className="bar-chart-vertical">
             {[
               { label: 'Satisfied', value: 72, color: 'var(--color-success)' },
@@ -60,54 +82,77 @@ export function AnalyticsPanel() {
           </div>
         </div>
 
-        {/* Cost Card */}
-        <div className="analytics-box glass">
-          <div className="analytics-box-title">Cost Optimization</div>
-          <div className="cost-metric">
-            <div className="cost-label">LLM Monthly Estimate</div>
-            <div className="cost-value">$12.40</div>
-            <div className="cost-sub term-success">↓ 18% vs last month</div>
+        {/* Cost Optimization Card */}
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="panel-icon-circle">
+              <span className="google-symbols notranslate">savings</span>
+            </div>
+            <div className="panel-title-block">
+              <h2 className="panel-title-text">{t('costOptimizationTitle')}</h2>
+              <p className="panel-desc-text">{t('costOptimizationDesc')}</p>
+            </div>
           </div>
-          <div style={{height:8}}/>
-          <div className="cost-metric">
-            <div className="cost-label">Tokens Used Today</div>
-            <div className="cost-value">84,203</div>
-            <div className="cost-sub term-info">Gemini 1.5 Pro</div>
+          
+          <div className="panel-body-content">
+            <div className="cost-metric">
+              <div className="cost-label">LLM Monthly Estimate</div>
+              <div className="cost-value">$12.40</div>
+              <div className="cost-sub term-success">↓ 18% vs last month</div>
+            </div>
+            <div className="cost-metric">
+              <div className="cost-label">Tokens Used Today</div>
+              <div className="cost-value">84,203</div>
+              <div className="cost-sub term-info">Gemini 1.5 Pro</div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Table */}
-      <div className="analytics-table-wrap glass">
-        <div className="table-header">
-          <span className="analytics-box-title">Engine Trigger Frequency</span>
-          <button className="btn-secondary">
-            <span className="google-symbols notranslate">download</span>
-            Export CSV
-          </button>
+      {/* Table Card */}
+      <div className="panel-card">
+        <div className="panel-card-header">
+          <div className="table-header-row">
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <div className="panel-icon-circle">
+                <span className="google-symbols notranslate">history_edu</span>
+              </div>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('engineTriggerFreqTitle')}</h2>
+                <p className="panel-desc-text">{t('engineTriggerFreqDesc')}</p>
+              </div>
+            </div>
+            <button className="btn-secondary">
+              <span className="google-symbols notranslate">download</span>
+              {t('exportCsvBtn')}
+            </button>
+          </div>
         </div>
-        <table className="analytics-table">
-          <thead>
-            <tr>
-              <th>Tool Name</th>
-              <th>Requests</th>
-              <th>Success Rate</th>
-              <th>Avg Latency</th>
-              <th>Fallbacks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {TABLE_DATA.map(row => (
-              <tr key={row.tool}>
-                <td><span className="tool-name">{row.tool}</span></td>
-                <td>{row.requests}</td>
-                <td><span className="term-success">{row.success}</span></td>
-                <td>{row.latency}</td>
-                <td>{row.fallbacks}</td>
+        
+        <div className="panel-body-content">
+          <table className="analytics-table">
+            <thead>
+              <tr>
+                <th>Tool Name</th>
+                <th>Requests</th>
+                <th>Success Rate</th>
+                <th>Avg Latency</th>
+                <th>Fallbacks</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {TABLE_DATA.map(row => (
+                <tr key={row.tool}>
+                  <td><span className="tool-name">{row.tool}</span></td>
+                  <td>{row.requests}</td>
+                  <td><span className="term-success">{row.success}</span></td>
+                  <td>{row.latency}</td>
+                  <td>{row.fallbacks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

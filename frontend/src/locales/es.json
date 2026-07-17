@@ -64,5 +64,16 @@
   "saveConfigurationBtn": "Guardar Configuración",
   "allChangesSavedText": "Todos los cambios se guardarán y se aplicarán a su agente.",
   "savedStatusText": "Guardado",
-  "justNowText": "Ahora mismo"
+  "justNowText": "Ahora mismo",
+  "conversationsTrafficDesc": "Intercambio de mensajes en tiempo real y tasa de interacción del usuario",
+  "orchestratorHealthDesc": "Estado en tiempo real para servicios y motores internos",
+  "classificationAccuracyTitle": "Precisión de la Clasificación",
+  "classificationAccuracyDesc": "Puntuación de precisión del modelo de detección de intenciones",
+  "customerSentimentTitle": "Sentimiento del Cliente",
+  "customerSentimentDesc": "Análisis de los estados de sentimiento de los mensajes de los usuarios",
+  "costOptimizationTitle": "Optimización de Costes",
+  "costOptimizationDesc": "Presupuesto mensual de LLM y asignación de tokens",
+  "engineTriggerFreqTitle": "Frecuencia de Activación del Motor",
+  "engineTriggerFreqDesc": "Desglose detallado de las llamadas de ejecución de herramientas",
+  "exportCsvBtn": "Exportar CSV"
 }

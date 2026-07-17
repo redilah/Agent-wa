@@ -12,10 +12,10 @@ const METRICS = [
 ];
 
 const HEALTH_ITEMS = [
-  { name: 'WA Webhook',       status: 'NOMINAL', color: 'green' },
-  { name: 'Gemini AI Engine', status: 'NOMINAL', color: 'green' },
-  { name: 'SQLite Database',  status: 'NOMINAL', color: 'green' },
-  { name: 'WebSocket Feed',   status: 'LIVE',    color: 'blue' },
+  { name: 'WA Webhook',       status: 'NOMINAL', color: 'green', icon: 'link' },
+  { name: 'Gemini AI Engine', status: 'NOMINAL', color: 'green', icon: 'auto_awesome' },
+  { name: 'SQLite Database',  status: 'NOMINAL', color: 'green', icon: 'database' },
+  { name: 'WebSocket Feed',   status: 'LIVE',    color: 'blue',  icon: 'rss_feed' },
 ];
 
 export function OverviewPanel({ logs }) {
@@ -46,17 +46,25 @@ export function OverviewPanel({ logs }) {
       {/* Chart + Health */}
       <div className="panel-row-2">
         {/* Sparkline Chart */}
-        <div className="chart-container glass">
-          <div className="chart-header">
-            <span className="chart-title">{t('conversationsTraffic')}</span>
-            <div className="chart-timeframes">
-              {['1H','24H','7D'].map(t => (
-                <button
-                  key={t}
-                  className={`btn-time ${timeframe === t ? 'active' : ''}`}
-                  onClick={() => setTimeframe(t)}
-                >{t}</button>
-              ))}
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="chart-header-row">
+              <div className="panel-icon-circle">
+                <span className="google-symbols notranslate">timeline</span>
+              </div>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('conversationsTraffic')}</h2>
+                <p className="panel-desc-text">{t('conversationsTrafficDesc')}</p>
+              </div>
+              <div className="chart-timeframes">
+                {['1H','24H','7D'].map(tVal => (
+                  <button
+                    key={tVal}
+                    className={`btn-time ${timeframe === tVal ? 'active' : ''}`}
+                    onClick={() => setTimeframe(tVal)}
+                  >{tVal}</button>
+                ))}
+              </div>
             </div>
           </div>
           <svg className="sparkline-large" viewBox="0 0 400 120" preserveAspectRatio="none">
@@ -75,12 +83,26 @@ export function OverviewPanel({ logs }) {
         </div>
 
         {/* Health List */}
-        <div className="health-card-container glass">
-          <div className="health-title">{t('orchestratorHealth')}</div>
-          <div className="health-list">
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="panel-icon-circle">
+              <span className="google-symbols notranslate">health_and_safety</span>
+            </div>
+            <div className="panel-title-block">
+              <h2 className="panel-title-text">{t('orchestratorHealth')}</h2>
+              <p className="panel-desc-text">{t('orchestratorHealthDesc')}</p>
+            </div>
+          </div>
+          
+          <div className="panel-body-content health-list">
             {HEALTH_ITEMS.map(h => (
               <div key={h.name} className="health-item">
-                <span className="health-item-name">{h.name}</span>
+                <div className="health-item-left">
+                  <div className="panel-item-icon-box">
+                    <span className="google-symbols notranslate">{h.icon}</span>
+                  </div>
+                  <span className="health-item-name">{h.name}</span>
+                </div>
                 <span className={`badge ${h.color}`}>{h.status}</span>
               </div>
             ))}

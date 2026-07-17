@@ -64,5 +64,16 @@
   "saveConfigurationBtn": "Save Configuration",
   "allChangesSavedText": "All changes will be saved and applied to your agent.",
   "savedStatusText": "Saved",
-  "justNowText": "Just now"
+  "justNowText": "Just now",
+  "conversationsTrafficDesc": "Real-time message exchange and user interaction rate",
+  "orchestratorHealthDesc": "Real-time status for internal services & engines",
+  "classificationAccuracyTitle": "Classification Accuracy",
+  "classificationAccuracyDesc": "Intent detection model accuracy score",
+  "customerSentimentTitle": "Customer Sentiment",
+  "customerSentimentDesc": "Analysis of user message sentiment states",
+  "costOptimizationTitle": "Cost Optimization",
+  "costOptimizationDesc": "Monthly LLM budget and token allocation",
+  "engineTriggerFreqTitle": "Engine Trigger Frequency",
+  "engineTriggerFreqDesc": "Detailed breakdown of tool execution calls",
+  "exportCsvBtn": "Export CSV"
 }

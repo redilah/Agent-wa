@@ -81,18 +81,18 @@ export function ConfigPanel({ settings, onSave, addToast }) {
         <div className="config-left-column">
           
           {/* Card 1: Agent Information */}
-          <div className="config-card glass">
-            <div className="card-header-with-icon">
-              <div className="header-icon-circle">
+          <div className="panel-card">
+            <div className="panel-card-header">
+              <div className="panel-icon-circle">
                 <span className="google-symbols notranslate">smart_toy</span>
               </div>
-              <div className="header-title-block">
-                <h2 className="card-title-text">{t('agentInfoTitle')}</h2>
-                <p className="card-desc-text">{t('agentInfoDesc')}</p>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('agentInfoTitle')}</h2>
+                <p className="panel-desc-text">{t('agentInfoDesc')}</p>
               </div>
             </div>
             
-            <div className="card-body-content">
+            <div className="panel-body-content">
               <div className="form-field">
                 <label className="field-label">{t('agentNameLabel')}</label>
                 <input
@@ -127,18 +127,18 @@ export function ConfigPanel({ settings, onSave, addToast }) {
           </div>
 
           {/* Card 2: Knowledge Base */}
-          <div className="config-card glass">
-            <div className="card-header-with-icon">
-              <div className="header-icon-circle">
+          <div className="panel-card">
+            <div className="panel-card-header">
+              <div className="panel-icon-circle">
                 <span className="google-symbols notranslate">book</span>
               </div>
-              <div className="header-title-block">
-                <h2 className="card-title-text">{t('knowledgeBaseTitle')}</h2>
-                <p className="card-desc-text">{t('knowledgeBaseDesc')}</p>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('knowledgeBaseTitle')}</h2>
+                <p className="panel-desc-text">{t('knowledgeBaseDesc')}</p>
               </div>
             </div>
 
-            <div className="card-body-content">
+            <div className="panel-body-content">
               <div className="form-field">
                 <label className="field-label">{t('systemPromptLabel')}</label>
                 <textarea
@@ -154,18 +154,18 @@ export function ConfigPanel({ settings, onSave, addToast }) {
           </div>
 
           {/* Card 3: Integrations */}
-          <div className="config-card glass">
-            <div className="card-header-with-icon">
-              <div className="header-icon-circle">
+          <div className="panel-card">
+            <div className="panel-card-header">
+              <div className="panel-icon-circle">
                 <span className="google-symbols notranslate">link</span>
               </div>
-              <div className="header-title-block">
-                <h2 className="card-title-text">{t('integrationsTitle')}</h2>
-                <p className="card-desc-text">{t('integrationsDesc')}</p>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('integrationsTitle')}</h2>
+                <p className="panel-desc-text">{t('integrationsDesc')}</p>
               </div>
             </div>
 
-            <div className="card-body-content">
+            <div className="panel-body-content">
               <div className="form-field">
                 <label className="field-label">{t('webhookUrl')}</label>
                 <div className="webhook-row">
@@ -192,22 +192,22 @@ export function ConfigPanel({ settings, onSave, addToast }) {
 
         {/* Right Column — Feature Toggles */}
         <div className="config-right-column">
-          <div className="config-card glass">
-            <div className="card-header-with-icon">
-              <div className="header-icon-circle">
+          <div className="panel-card">
+            <div className="panel-card-header">
+              <div className="panel-icon-circle">
                 <span className="google-symbols notranslate">auto_awesome</span>
               </div>
-              <div className="header-title-block">
-                <h2 className="card-title-text">{t('aiFeatureTogglesTitle')}</h2>
-                <p className="card-desc-text">{t('aiFeatureTogglesDesc')}</p>
+              <div className="panel-title-block">
+                <h2 className="panel-title-text">{t('aiFeatureTogglesTitle')}</h2>
+                <p className="panel-desc-text">{t('aiFeatureTogglesDesc')}</p>
               </div>
             </div>
 
-            <div className="card-body-content toggle-list">
+            <div className="panel-body-content toggle-list">
               {TOGGLES.map(tData => (
                 <div key={tData.id} className="toggle-card">
                   <div className="toggle-left-side">
-                    <div className="toggle-icon-container">
+                    <div className="panel-item-icon-box">
                       <span className="google-symbols notranslate">{tData.icon}</span>
                     </div>
                     <div className="toggle-info">

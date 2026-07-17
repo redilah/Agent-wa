@@ -64,5 +64,16 @@
   "saveConfigurationBtn": "設定を保存",
   "allChangesSavedText": "すべての変更が保存され、エージェントに適用されます。",
   "savedStatusText": "保存済み",
-  "justNowText": "たった今"
+  "justNowText": "たった今",
+  "conversationsTrafficDesc": "リアルタイムのメッセージ交換とユーザーの対話率",
+  "orchestratorHealthDesc": "内部サービスとエンジンのリアルタイムステータス",
+  "classificationAccuracyTitle": "分類精度",
+  "classificationAccuracyDesc": "意図検出モデルの精度スコア",
+  "customerSentimentTitle": "顧客の感情",
+  "customerSentimentDesc": "ユーザーメッセージの感情状態の分析",
+  "costOptimizationTitle": "コストの最適化",
+  "costOptimizationDesc": "月間LLM予算とトークン割り当て",
+  "engineTriggerFreqTitle": "エンジントリガーの頻度",
+  "engineTriggerFreqDesc": "ツール実行呼び出しの詳細な内訳",
+  "exportCsvBtn": "CSVエクスポート"
 }

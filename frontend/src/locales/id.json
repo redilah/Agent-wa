@@ -64,5 +64,16 @@
   "saveConfigurationBtn": "Simpan Konfigurasi",
   "allChangesSavedText": "Semua perubahan akan disimpan dan diterapkan ke agen Anda.",
   "savedStatusText": "Disimpan",
-  "justNowText": "Baru saja"
+  "justNowText": "Baru saja",
+  "conversationsTrafficDesc": "Pertukaran pesan real-time dan tingkat interaksi pengguna",
+  "orchestratorHealthDesc": "Status real-time untuk layanan & mesin internal",
+  "classificationAccuracyTitle": "Akurasi Klasifikasi",
+  "classificationAccuracyDesc": "Skor akurasi model deteksi niat",
+  "customerSentimentTitle": "Sentimen Pelanggan",
+  "customerSentimentDesc": "Analisis kondisi sentimen pesan pengguna",
+  "costOptimizationTitle": "Optimalisasi Biaya",
+  "costOptimizationDesc": "Anggaran LLM bulanan dan alokasi token",
+  "engineTriggerFreqTitle": "Frekuensi Pemicu Mesin",
+  "engineTriggerFreqDesc": "Rincian panggilan eksekusi alat secara mendetail",
+  "exportCsvBtn": "Ekspor CSV"
 }
