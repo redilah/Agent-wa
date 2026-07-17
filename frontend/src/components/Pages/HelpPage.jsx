@@ -1,46 +1,68 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGlobalContext } from '../../App';
 
 export function HelpPage() {
+  const { t } = useTranslation();
   const { navigate } = useGlobalContext();
 
   return (
-    <div className="min-h-screen bg-[#0b0e17] text-white p-8">
-      <div className="max-w-3xl mx-auto">
-        <button onClick={() => navigate('/')} className="mb-8 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition">← Back to Dashboard</button>
-        <h1 className="text-4xl font-bold mb-8">Pusat Bantuan</h1>
-        
-        <div className="relative mb-12">
-          <span className="google-symbols absolute left-4 top-1/2 -translate-y-1/2 text-white/50">search</span>
-          <input type="text" placeholder="Cari panduan atau tanya sesuatu..." className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-blue-500 transition" />
-        </div>
-        
-        <h2 className="text-2xl font-semibold mb-6">Topik Populer</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-          <div className="p-4 bg-white/5 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition flex items-center justify-between">
-            <span>Cara menghubungkan nomor WhatsApp</span>
-            <span className="google-symbols text-white/40">chevron_right</span>
+    <div className="min-h-screen bg-[#0e0f11] text-white p-8">
+      <div className="max-w-3xl mx-auto flex flex-col gap-6">
+        <button onClick={() => navigate('/')} className="btn-secondary self-start flex items-center justify-center gap-2">
+          <span className="google-symbols notranslate text-sm">arrow_back</span>
+          <span>{t('backToDashboard')}</span>
+        </button>
+
+        <div className="panel-card">
+          <div className="panel-card-header">
+            <div className="panel-icon-circle">
+              <span className="google-symbols notranslate">help_center</span>
+            </div>
+            <div className="panel-title-block">
+              <h1 className="panel-title-text !text-2xl">{t('helpCenterTitle')}</h1>
+              <p className="panel-desc-text">Browse documentation, tutorials, or contact developer support.</p>
+            </div>
           </div>
-          <div className="p-4 bg-white/5 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition flex items-center justify-between">
-            <span>Mengatur Knowledge Base</span>
-            <span className="google-symbols text-white/40">chevron_right</span>
-          </div>
-          <div className="p-4 bg-white/5 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition flex items-center justify-between">
-            <span>Masalah penagihan & faktur</span>
-            <span className="google-symbols text-white/40">chevron_right</span>
-          </div>
-          <div className="p-4 bg-white/5 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition flex items-center justify-between">
-            <span>Format Data Webhook</span>
-            <span className="google-symbols text-white/40">chevron_right</span>
-          </div>
-        </div>
-        
-        <div className="p-6 bg-blue-600/10 border border-blue-500/30 rounded-2xl flex items-start gap-4">
-          <span className="google-symbols text-blue-400 text-3xl">support_agent</span>
-          <div>
-            <h3 className="text-lg font-bold mb-2">Butuh bantuan lebih lanjut?</h3>
-            <p className="text-sm text-white/70 mb-4">Tim dukungan kami siap membantu Anda 24/7. Buat tiket dukungan dan kami akan merespons melalui email.</p>
-            <button className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">Kirim Tiket Bantuan</button>
+
+          <div className="panel-body-content !gap-6">
+            {/* Search Box */}
+            <div className="relative">
+              <span className="google-symbols absolute left-4 top-1/2 -translate-y-1/2 text-white/40">search</span>
+              <input 
+                type="text" 
+                placeholder={t('searchPlaceholder')} 
+                className="cfg-input !pl-12 !py-3.5" 
+              />
+            </div>
+
+            {/* Popular Topics Section */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-white/80">{t('popularTopicsTitle')}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  t('topic1Text'),
+                  t('topic2Text'),
+                  t('topic3Text'),
+                  t('topic4Text')
+                ].map((topic, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-black/35 hover:bg-black/50 border border-white/5 hover:border-white/10 rounded-xl cursor-pointer transition">
+                    <span className="text-sm font-medium text-white/90">{topic}</span>
+                    <span className="google-symbols text-white/40 notranslate">chevron_right</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact Card */}
+            <div className="p-6 bg-white/5 border border-white/10 rounded-xl flex items-start gap-4 mt-2">
+              <span className="google-symbols text-blue-400 text-3xl notranslate">support_agent</span>
+              <div className="flex-1">
+                <h3 className="text-base font-bold mb-1">{t('moreHelpTitle')}</h3>
+                <p className="text-sm text-white/60 mb-4">{t('moreHelpDesc')}</p>
+                <button className="btn-save-config glow-button !py-2 !px-4 text-sm">{t('submitTicketBtn')}</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

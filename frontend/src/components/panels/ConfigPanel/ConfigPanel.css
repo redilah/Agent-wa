@@ -95,6 +95,11 @@ select.cfg-input.select-with-icon {
   background-size: 16px;
 }
 
+select.cfg-input option {
+  background-color: #0e0f11;
+  color: #f3f4f6;
+}
+
 /* Webhook Test Connection */
 .webhook-row {
   display: flex;
@@ -295,9 +300,49 @@ select.cfg-input.select-with-icon {
   color: var(--text-primary);
 }
 
-.status-time {
-  font-size: 11px;
-  color: var(--text-muted);
+/* Custom Select Dropdown Redesign */
+.custom-select-trigger {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.4)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 14px center !important;
+  background-size: 16px !important;
+}
+
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #0e0f11;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  z-index: 50;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+}
+
+.custom-select-option {
+  padding: 12px 14px;
+  padding-left: 38px;
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-select-option:hover {
+  background-color: #22252a; /* Hitam tapi ga terlalu hitam (dark grey), so it is visible but matches premium dark theme */
+  color: var(--text-primary);
+}
+
+.custom-select-option.selected {
+  background-color: rgba(255, 255, 255, 0.08);
+  font-weight: 500;
 }
 
 @media (max-width: 1024px) {

@@ -27,6 +27,17 @@ export function ConfigPanel({ settings, onSave, addToast }) {
   });
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest('.model-select-wrapper')) {
+        setModelDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   useEffect(() => {
     if (settings) {
@@ -110,17 +121,29 @@ export function ConfigPanel({ settings, onSave, addToast }) {
                 <label className="field-label">{t('foundationModelLabel')}</label>
                 <div className="model-select-wrapper">
                   <span className="google-symbols model-select-icon notranslate">auto_awesome</span>
-                  <select
+                  <div
                     id="cfg-model"
-                    className="cfg-input select-with-icon"
-                    value={form.model}
-                    onChange={e => setForm({...form, model: e.target.value})}
+                    className="cfg-input select-with-icon custom-select-trigger"
+                    onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
                   >
-                    <option>Gemini 1.5 Pro</option>
-                    <option>GPT-4o</option>
-                    <option>Claude 3.5 Sonnet</option>
-                    <option>Llama 3.1 70B</option>
-                  </select>
+                    {form.model}
+                  </div>
+                  {modelDropdownOpen && (
+                    <div className="custom-select-dropdown">
+                      {['Gemini 1.5 Pro', 'GPT-4o', 'Claude 3.5 Sonnet', 'Llama 3.1 70B'].map(opt => (
+                        <div
+                          key={opt}
+                          className={`custom-select-option ${form.model === opt ? 'selected' : ''}`}
+                          onClick={() => {
+                            setForm({ ...form, model: opt });
+                            setModelDropdownOpen(false);
+                          }}
+                        >
+                          {opt}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
