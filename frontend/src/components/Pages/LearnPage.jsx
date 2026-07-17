@@ -30,13 +30,13 @@ export function LearnPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
               <div className="p-6 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">
-                <span className="google-symbols text-3xl mb-4 text-blue-400 notranslate">quick_reference_all</span>
+                <span className="google-symbols text-3xl mb-4 text-white/80 notranslate">quick_reference_all</span>
                 <h3 className="text-lg font-bold mb-2 text-white">{t('gettingStartedGuide')}</h3>
                 <p className="text-sm text-white/60">{t('gettingStartedDesc')}</p>
               </div>
 
               <div className="p-6 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">
-                <span className="google-symbols text-3xl mb-4 text-emerald-400 notranslate">api</span>
+                <span className="google-symbols text-3xl mb-4 text-white/80 notranslate">api</span>
                 <h3 className="text-lg font-bold mb-2 text-white">{t('apiDocumentation')}</h3>
                 <p className="text-sm text-white/60">{t('apiDocDesc')}</p>
               </div>

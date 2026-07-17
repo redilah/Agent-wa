@@ -23,9 +23,9 @@ export function SettingsPage() {
         <h2 className="text-xl font-bold tracking-tight">{t('settingsTitle')}</h2>
         <nav className="flex flex-col gap-2">
           <button className="w-full text-left px-4 py-2.5 bg-white/10 text-white rounded-lg font-medium transition">{t('profileAkun')}</button>
-          <button className="w-full text-left px-4 py-2.5 text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('keamanan')}</button>
-          <button className="w-full text-left px-4 py-2.5 text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('tampilan')}</button>
-          <button className="w-full text-left px-4 py-2.5 text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('notifikasi')}</button>
+          <button className="w-full text-left px-4 py-2.5 bg-transparent text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('keamanan')}</button>
+          <button className="w-full text-left px-4 py-2.5 bg-transparent text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('tampilan')}</button>
+          <button className="w-full text-left px-4 py-2.5 bg-transparent text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition">{t('notifikasi')}</button>
         </nav>
       </div>
 
