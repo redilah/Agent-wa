@@ -1,13 +1,14 @@
 // panels/OverviewPanel/OverviewPanel.jsx
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './OverviewPanel.css';
 
 const METRICS = [
-  { icon: 'chat', label: 'Active Chats',       value: '1',     sub: '+2 today',         id: 'metric-active-chats' },
-  { icon: 'check_circle', label: 'API Success Rate', value: '98.7%', sub: 'Last 24 hours' },
-  { icon: 'timer', label: 'Avg. Response Time', value: '1.2s',  sub: 'Gemini 1.5 Pro' },
-  { icon: 'data_usage', label: 'Model Call Count',  value: '247',   sub: 'This session' },
+  { icon: 'chat', labelKey: 'activeChats',       value: '1',     subKey: 'plusTwoToday',         id: 'metric-active-chats' },
+  { icon: 'check_circle', labelKey: 'apiSuccessRate', value: '98.7%', subKey: 'last24Hours' },
+  { icon: 'timer', labelKey: 'avgResponseTime', value: '1.2s',  subKey: 'geminiPro' },
+  { icon: 'data_usage', labelKey: 'modelCallCount',  value: '247',   subKey: 'thisSession' },
 ];
 
 const HEALTH_ITEMS = [
@@ -18,6 +19,7 @@ const HEALTH_ITEMS = [
 ];
 
 export function OverviewPanel({ logs }) {
+  const { t } = useTranslation();
   const [timeframe, setTimeframe] = useState('24H');
 
   // Build mini log dari recent WS events
@@ -28,14 +30,14 @@ export function OverviewPanel({ logs }) {
       {/* Metric Cards */}
       <div className="metrics-grid">
         {METRICS.map(m => (
-          <div key={m.label} className="metric-card glass" id={m.id}>
+          <div key={m.labelKey} className="metric-card glass" id={m.id}>
             <div className="metric-icon">
               <span className="google-symbols notranslate">{m.icon}</span>
             </div>
             <div>
-              <div className="metric-label">{m.label}</div>
+              <div className="metric-label">{t(m.labelKey)}</div>
               <div className="metric-value">{m.value}</div>
-              <div className="metric-sub">{m.sub}</div>
+              <div className="metric-sub">{t(m.subKey)}</div>
             </div>
           </div>
         ))}
@@ -46,7 +48,7 @@ export function OverviewPanel({ logs }) {
         {/* Sparkline Chart */}
         <div className="chart-container glass">
           <div className="chart-header">
-            <span className="chart-title">Conversations Traffic</span>
+            <span className="chart-title">{t('conversationsTraffic')}</span>
             <div className="chart-timeframes">
               {['1H','24H','7D'].map(t => (
                 <button
@@ -74,7 +76,7 @@ export function OverviewPanel({ logs }) {
 
         {/* Health List */}
         <div className="health-card-container glass">
-          <div className="health-title">Orchestrator Health</div>
+          <div className="health-title">{t('orchestratorHealth')}</div>
           <div className="health-list">
             {HEALTH_ITEMS.map(h => (
               <div key={h.name} className="health-item">
@@ -88,10 +90,10 @@ export function OverviewPanel({ logs }) {
 
       {/* Mini Console */}
       <div className="mini-console">
-        <div className="mini-console-title">⬡ Live Event Stream</div>
+        <div className="mini-console-title">{t('liveEventStream')}</div>
         <div className="mini-console-log">
           {recentLogs.length === 0
-            ? <span className="term-info">[system] Waiting for events...</span>
+            ? <span className="term-info">{t('waitingForEvents')}</span>
             : recentLogs.map((log, i) => (
                 <div key={i}><span className={`term-${log.level || 'info'}`}>{log.text}</span></div>
               ))

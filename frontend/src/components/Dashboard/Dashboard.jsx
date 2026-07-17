@@ -1,6 +1,7 @@
 // components/Dashboard/Dashboard.jsx
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { OverviewPanel }   from '../panels/OverviewPanel/OverviewPanel';
 import { ConfigPanel }     from '../panels/ConfigPanel/ConfigPanel';
@@ -11,11 +12,11 @@ import { PanelSkeleton }   from './PanelSkeleton';
 import './Dashboard.css';
 
 const PANEL_META = {
-  overview:  { title: 'System Overview',        subtitle: 'Real-time orchestration monitoring & performance metrics' },
-  config:    { title: 'Agent Configuration',    subtitle: 'LLM parameters, knowledge base & feature toggles' },
-  sandbox:   { title: 'Interactive Sandbox',    subtitle: 'Simulate customer interactions & test AI responses' },
-  analytics: { title: 'Analytics & Costs',      subtitle: 'Usage statistics, cost analysis & performance insights' },
-  logs:      { title: 'System Event Logs',      subtitle: 'Real-time diagnostic feed & event timeline' },
+  overview:  { titleKey: 'systemOverviewTitle',        subtitleKey: 'systemOverviewSub' },
+  config:    { titleKey: 'agentConfigTitle',    subtitleKey: 'agentConfigSub' },
+  sandbox:   { titleKey: 'interactiveSandboxTitle',    subtitleKey: 'interactiveSandboxSub' },
+  analytics: { titleKey: 'analyticsCostsTitle',      subtitleKey: 'analyticsCostsSub' },
+  logs:      { titleKey: 'systemEventLogsTitle',      subtitleKey: 'systemEventLogsSub' },
 };
 
 const SKELETON_DURATION = 500; // ms to show skeleton before revealing panel
@@ -25,6 +26,7 @@ export function Dashboard({
   settings, onSettingsSave,
   wsLogs, sendWsMessage,
 }) {
+  const { t } = useTranslation();
   const [activePanel, setActivePanel] = useState('overview');
   const [isDark, setIsDark] = useState(true); // default dark
   const [isLoading, setIsLoading] = useState(false);
@@ -75,20 +77,20 @@ export function Dashboard({
       <main className="main-content">
         <header className="main-header glass">
           <div className="header-left">
-            <h1 className="header-title">{meta.title}</h1>
-            <p className="header-subtitle">{meta.subtitle}</p>
+            <h1 className="header-title">{t(meta.titleKey)}</h1>
+            <p className="header-subtitle">{t(meta.subtitleKey)}</p>
           </div>
           <div className="header-actions">
             <div className="connection-status">
               <span className="pulse-indicator green"></span>
-              WS LIVE
+              {t('wsLive')}
             </div>
             <button className="btn-icon-glass" onClick={toggleTheme} title="Toggle Theme">
               <span className="google-symbols notranslate">
                 {isDark ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
-            <button className="btn-icon-glass" onClick={() => addToast('Refreshing data...', 'info')} title="Refresh">
+            <button className="btn-icon-glass" onClick={() => addToast(t('refreshingData'), 'info')} title="Refresh">
               <span className="google-symbols notranslate">refresh</span>
             </button>
           </div>

@@ -125,7 +125,7 @@ app.add_middleware(
 # Path ke folder frontend-dist (hasil build React)
 import pathlib
 from fastapi.staticfiles import StaticFiles
-FRONTEND_DIR = pathlib.Path(__file__).parent.parent / "frontend-dist"
+FRONTEND_DIR = pathlib.Path(__file__).parent.parent / "frontend" / "dist"
 
 
 # ==========================================
@@ -137,6 +137,12 @@ FRONTEND_DIR = pathlib.Path(__file__).parent.parent / "frontend-dist"
 @app.get("/privacy-policy")
 @app.get("/terms")
 @app.get("/terms-of-service")
+@app.get("/settings")
+@app.get("/learn")
+@app.get("/downloads")
+@app.get("/pricing")
+@app.get("/billing")
+@app.get("/help")
 async def serve_frontend():
     """Serve React dashboard frontend (index.html) and SPA routes."""
     index_path = FRONTEND_DIR / "index.html"

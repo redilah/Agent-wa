@@ -1,4 +1,9 @@
-// App.jsx — Root component, mengelola auth state, WebSocket, dan Global Context
+import os
+
+# Update App.jsx
+app_jsx_path = r"c:\Users\GC\Downloads\OneDrive\Desktop\Agent AI CS\frontend\src\App.jsx"
+
+app_jsx_content = """// App.jsx — Root component, mengelola auth state, WebSocket, dan Global Context
 import React, { useState, useCallback, useEffect, createContext, useContext } from 'react';
 import { LoginPage }  from './components/LoginPage/LoginPage';
 import { Dashboard }  from './components/Dashboard/Dashboard';
@@ -13,7 +18,6 @@ import { SettingsPage } from './components/Pages/SettingsPage';
 import { useWebSocket } from './hooks/useWebSocket';
 import { useToast }     from './hooks/useToast';
 import { getSettings }  from './api/client';
-import i18n from './i18n';
 
 export const GlobalContext = createContext(null);
 
@@ -25,7 +29,12 @@ function escapeHTML(str) {
 }
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('regalia_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
   
   const [settings, setSettings] = useState(null);
   const [wsLogs, setWsLogs]     = useState([]);
@@ -50,12 +59,12 @@ export default function App() {
   const changeLanguage = (lang) => {
     setLanguage(lang);
     localStorage.setItem('regalia_language', lang);
-    i18n.changeLanguage(lang);
   };
   
   const updateUser = (newUserData) => {
     const updated = { ...user, ...newUserData };
     setUser(updated);
+    localStorage.setItem('regalia_user', JSON.stringify(updated));
   };
 
   const { toasts, addToast } = useToast();
@@ -96,12 +105,14 @@ export default function App() {
 
   const handleLogin = (profile) => {
     setUser(profile);
+    localStorage.setItem('regalia_user', JSON.stringify(profile));
   };
 
   const handleLogout = () => {
     setUser(null);
     setSettings(null);
     setWsLogs([]);
+    localStorage.removeItem('regalia_user');
     navigate('/');
   };
 
@@ -159,3 +170,9 @@ export default function App() {
     </GlobalContext.Provider>
   );
 }
+"""
+
+with open(app_jsx_path, 'w', encoding='utf-8') as f:
+    f.write(app_jsx_content)
+
+print("Updated App.jsx successfully.")

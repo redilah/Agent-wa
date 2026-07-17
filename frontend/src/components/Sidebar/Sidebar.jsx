@@ -1,19 +1,26 @@
 // components/Sidebar/Sidebar.jsx
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useGlobalContext } from '../../App';
 import './Sidebar.css';
 
 const NAV_ITEMS = [
-  { id: 'overview',   icon: 'dashboard',    label: 'Overview' },
-  { id: 'config',     icon: 'tune',         label: 'Agent Config' },
-  { id: 'sandbox',    icon: 'terminal',     label: 'Interactive Sandbox' },
-  { id: 'analytics',  icon: 'trending_up',  label: 'Analytics' },
-  { id: 'logs',       icon: 'article',      label: 'System Logs' },
+  { id: 'overview',   icon: 'dashboard',    labelKey: 'overview' },
+  { id: 'config',     icon: 'tune',         labelKey: 'agentConfig' },
+  { id: 'sandbox',    icon: 'terminal',     labelKey: 'interactiveSandbox' },
+  { id: 'analytics',  icon: 'trending_up',  labelKey: 'analytics' },
+  { id: 'logs',       icon: 'article',      labelKey: 'systemLogs' },
 ];
 
 export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
+  const { navigate, language, changeLanguage } = useGlobalContext();
+  const { t } = useTranslation();
+
   const [collapsed, setCollapsed] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
+  
 
   const initials = user?.name
     ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
@@ -46,7 +53,7 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
                 title={collapsed ? item.label : undefined}
               >
                 <span className="nav-icon google-symbols notranslate">{item.icon}</span>
-                {!collapsed && <span className="nav-label">{item.label}</span>}
+                {!collapsed && <span className="nav-label">{t(item.labelKey)}</span>}
               </button>
             </li>
           ))}
@@ -57,7 +64,7 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
       <div className="sidebar-footer">
         <button 
           className="user-profile-btn" 
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          onClick={() => { setIsDropdownOpen(!isDropdownOpen); setActiveSubMenu(null); }}
           title={collapsed ? 'Profile options' : undefined}
         >
           <div className="user-profile-content">
@@ -81,35 +88,74 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
 
         {isDropdownOpen && (
           <div className="profile-dropdown">
-            <div className="dropdown-item">
+            <div className="dropdown-item" onClick={() => { navigate('/settings'); setIsDropdownOpen(false); }}>
               <span className="google-symbols notranslate dropdown-icon">settings</span>
-              Pengaturan
+              {t('settings')}
             </div>
-            <div className="dropdown-item">
-              <span className="google-symbols notranslate dropdown-icon">language</span>
-              Bahasa
+            
+            {/* Language item with submenu */}
+            <div 
+              className="dropdown-item has-submenu" 
+              onMouseEnter={() => setActiveSubMenu('language')}
+              onMouseLeave={() => setActiveSubMenu(null)}
+            >
+              <div className="submenu-trigger">
+                <span className="google-symbols notranslate dropdown-icon">language</span>
+                <span style={{flex: 1}}>{t('language')}</span>
+                <span className="google-symbols notranslate chevron">chevron_right</span>
+              </div>
+              
+              {activeSubMenu === 'language' && (
+                <div className="submenu-dropdown">
+                  {[
+                    { id: 'en', label: 'English' },
+                    { id: 'id', label: 'Indonesia' },
+                    { id: 'de', label: 'Deutsch' },
+                    { id: 'fr', label: 'Français' },
+                    { id: 'it', label: 'Italiano' },
+                    { id: 'es', label: 'Español' },
+                    { id: 'pt', label: 'Português' },
+                    { id: 'ko', label: 'Korea' },
+                    { id: 'hi', label: 'Hindi' },
+                    { id: 'ja', label: 'Japanese' },
+                  ].map(lang => (
+                    <div 
+                      key={lang.id} 
+                      className="dropdown-item language-item" 
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        changeLanguage(lang.id);
+                        setTimeout(() => setIsDropdownOpen(false), 200);
+                      }}
+                    >
+                      <span>{lang.label}</span>
+                      {language === lang.id && (
+                        <span className="google-symbols notranslate check-icon text-blue-500">check</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="dropdown-item">
+
+            <div className="dropdown-item" onClick={() => { navigate('/help'); setIsDropdownOpen(false); }}>
               <span className="google-symbols notranslate dropdown-icon">help</span>
-              Dapatkan bantuan
+              {t('getHelp')}
             </div>
             <div className="dropdown-divider"></div>
-            <div className="dropdown-item">
+            <div className="dropdown-item" onClick={() => { navigate('/pricing'); setIsDropdownOpen(false); }}>
               <span className="google-symbols notranslate dropdown-icon">upgrade</span>
-              Tingkatkan paket
+              {t('upgradePlan')}
             </div>
-            <div className="dropdown-item">
-              <span className="google-symbols notranslate dropdown-icon">extension</span>
-              Dapatkan aplikasi dan ekstensi
-            </div>
-            <div className="dropdown-item">
+
+            <div className="dropdown-item" onClick={() => { navigate('/learn'); setIsDropdownOpen(false); }}>
               <span className="google-symbols notranslate dropdown-icon">info</span>
-              Pelajari lebih lanjut
+              {t('learnMore')}
             </div>
             <div className="dropdown-divider"></div>
             <div className="dropdown-item dropdown-item-danger" onClick={onLogout}>
               <span className="google-symbols notranslate dropdown-icon">logout</span>
-              Keluar
+              {t('logout')}
             </div>
           </div>
         )}
