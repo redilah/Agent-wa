@@ -99,7 +99,7 @@
 .cfg-input {
   width: 100%;
   padding: 12px 14px;
-  background: var(--bg-dark);
+  background: rgba(0, 0, 0, 0.25) !important;
   border: 1px solid var(--card-border);
   border-radius: 8px;
   color: var(--text-primary);
@@ -107,6 +107,16 @@
   font-size: 13px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Prevent browser autofill from forcing a white background */
+.cfg-input:-webkit-autofill,
+.cfg-input:-webkit-autofill:hover,
+.cfg-input:-webkit-autofill:focus,
+.cfg-input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  -webkit-box-shadow: 0 0 0 1000px #121316 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .cfg-input:focus {
