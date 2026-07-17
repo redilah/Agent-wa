@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "Logs de Eventos do Sistema",
   "systemEventLogsSub": "Feed de diagnóstico em tempo real",
   "wsLive": "WS AO VIVO",
-  "refreshingData": "Atualizando dados..."
+  "refreshingData": "Atualizando dados...",
+  "agentInfoTitle": "Informações do Agente",
+  "agentInfoDesc": "Informações básicas e configuração do modelo.",
+  "agentNameLabel": "Nome do Agente",
+  "foundationModelLabel": "Modelo de Fundação",
+  "knowledgeBaseTitle": "Base de Conhecimento",
+  "knowledgeBaseDesc": "Prompt do sistema e contexto de conhecimento para o seu agente.",
+  "systemPromptLabel": "Prompt do Sistema / Base de Conhecimento",
+  "integrationsTitle": "Integrações",
+  "integrationsDesc": "Conecte serviços e ferramentas externas.",
+  "testConnectionBtn": "Testar Conexão",
+  "aiFeatureTogglesTitle": "Alternadores de Recursos de IA",
+  "aiFeatureTogglesDesc": "Ative ou desative recursos de IA.",
+  "saveConfigurationBtn": "Salvar Configuração",
+  "allChangesSavedText": "Todas as alterações serão salvas e aplicadas ao seu agente.",
+  "savedStatusText": "Salvo",
+  "justNowText": "Agora mesmo"
 }

@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "सिस्टम इवेंट लॉग",
   "systemEventLogsSub": "रीयल-टाइम डायग्नोस्टिक फ़ीड और इवेंट टाइमलाइन",
   "wsLive": "डब्ल्यूएस लाइव",
-  "refreshingData": "डेटा रीफ्रेश किया जा रहा है..."
+  "refreshingData": "डेटा रीफ्रेश किया जा रहा है...",
+  "agentInfoTitle": "एजेंट जानकारी",
+  "agentInfoDesc": "बुनियादी जानकारी और मॉडल कॉन्फ़िगरेशन।",
+  "agentNameLabel": "एजेंट का नाम",
+  "foundationModelLabel": "फाउंडेशन मॉडल",
+  "knowledgeBaseTitle": "ज्ञान आधार",
+  "knowledgeBaseDesc": "आपके एजेंट के लिए सिस्टम प्रॉम्प्ट और ज्ञान संदर्भ।",
+  "systemPromptLabel": "सिस्टम प्रॉम्प्ट / ज्ञान आधार",
+  "integrationsTitle": "एकीकरण",
+  "integrationsDesc": "बाहरी सेवाओं और उपकरणों को कनेक्ट करें।",
+  "testConnectionBtn": "कनेक्शन का परीक्षण करें",
+  "aiFeatureTogglesTitle": "एआई फीचर टॉगल",
+  "aiFeatureTogglesDesc": "एआई क्षमताओं को सक्षम या अक्षम करें।",
+  "saveConfigurationBtn": "कॉन्फ़िगरेशन सहेजें",
+  "allChangesSavedText": "सभी बदलाव सहेजे जाएंगे और आपके एजेंट पर लागू किए जाएंगे।",
+  "savedStatusText": "सहेजा गया",
+  "justNowText": "अभी-अभी"
 }

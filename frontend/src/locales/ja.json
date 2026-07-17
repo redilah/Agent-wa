@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "システムイベントログ",
   "systemEventLogsSub": "リアルタイムの診断フィードとイベントタイムライン",
   "wsLive": "WS ライブ",
-  "refreshingData": "データを更新しています..."
+  "refreshingData": "データを更新しています...",
+  "agentInfoTitle": "エージェント情報",
+  "agentInfoDesc": "基本情報とモデル構成。",
+  "agentNameLabel": "エージェント名",
+  "foundationModelLabel": "基盤モデル",
+  "knowledgeBaseTitle": "ナレッジベース",
+  "knowledgeBaseDesc": "エージェntのシステムプロンプトとナレッジコンテキスト。",
+  "systemPromptLabel": "システムプロンプト / ナレッジベース",
+  "integrationsTitle": "統合",
+  "integrationsDesc": "外部サービスやツールとの接続。",
+  "testConnectionBtn": "接続テスト",
+  "aiFeatureTogglesTitle": "AI機能の切り替え",
+  "aiFeatureTogglesDesc": "AI機能を有効または無効にします。",
+  "saveConfigurationBtn": "設定を保存",
+  "allChangesSavedText": "すべての変更が保存され、エージェントに適用されます。",
+  "savedStatusText": "保存済み",
+  "justNowText": "たった今"
 }

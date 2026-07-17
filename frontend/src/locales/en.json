@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "System Event Logs",
   "systemEventLogsSub": "Real-time diagnostic feed & event timeline",
   "wsLive": "WS LIVE",
-  "refreshingData": "Refreshing data..."
+  "refreshingData": "Refreshing data...",
+  "agentInfoTitle": "Agent Information",
+  "agentInfoDesc": "Basic information and model configuration.",
+  "agentNameLabel": "Agent Name",
+  "foundationModelLabel": "Foundation Model",
+  "knowledgeBaseTitle": "Knowledge Base",
+  "knowledgeBaseDesc": "System prompt and knowledge context for your agent.",
+  "systemPromptLabel": "System Prompt / Knowledge Base",
+  "integrationsTitle": "Integrations",
+  "integrationsDesc": "Connect external services and tools.",
+  "testConnectionBtn": "Test Connection",
+  "aiFeatureTogglesTitle": "AI Feature Toggles",
+  "aiFeatureTogglesDesc": "Enable or disable AI capabilities.",
+  "saveConfigurationBtn": "Save Configuration",
+  "allChangesSavedText": "All changes will be saved and applied to your agent.",
+  "savedStatusText": "Saved",
+  "justNowText": "Just now"
 }

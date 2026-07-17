@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "Systemereignisprotokolle",
   "systemEventLogsSub": "Echtzeit-Diagnose-Feed & Ereignis-Zeitleiste",
   "wsLive": "WS LIVE",
-  "refreshingData": "Daten werden aktualisiert..."
+  "refreshingData": "Daten werden aktualisiert...",
+  "agentInfoTitle": "Agenteninformationen",
+  "agentInfoDesc": "Grundlegende Informationen und Modellkonfiguration.",
+  "agentNameLabel": "Agentenname",
+  "foundationModelLabel": "Basis-Modell",
+  "knowledgeBaseTitle": "Wissensdatenbank",
+  "knowledgeBaseDesc": "System-Prompt und Wissenskontext für Ihren Agenten.",
+  "systemPromptLabel": "System-Prompt / Wissensdatenbank",
+  "integrationsTitle": "Integrationen",
+  "integrationsDesc": "Verbinden Sie externe Dienste und Tools.",
+  "testConnectionBtn": "Verbindung testen",
+  "aiFeatureTogglesTitle": "KI-Funktions-Toggles",
+  "aiFeatureTogglesDesc": "Aktivieren oder deaktivieren Sie KI-Funktionen.",
+  "saveConfigurationBtn": "Konfiguration speichern",
+  "allChangesSavedText": "Alle Änderungen werden gespeichert und auf Ihren Agenten angewendet.",
+  "savedStatusText": "Gespeichert",
+  "justNowText": "Gerade eben"
 }

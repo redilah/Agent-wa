@@ -48,5 +48,21 @@
   "systemEventLogsTitle": "Log Peristiwa Sistem",
   "systemEventLogsSub": "Umpan diagnostik real-time & garis waktu peristiwa",
   "wsLive": "WS LANGSUNG",
-  "refreshingData": "Menyegarkan data..."
+  "refreshingData": "Menyegarkan data...",
+  "agentInfoTitle": "Informasi Agen",
+  "agentInfoDesc": "Informasi dasar dan konfigurasi model.",
+  "agentNameLabel": "Nama Agen",
+  "foundationModelLabel": "Model Fondasi",
+  "knowledgeBaseTitle": "Basis Pengetahuan",
+  "knowledgeBaseDesc": "Instruksi sistem dan konteks pengetahuan untuk agen Anda.",
+  "systemPromptLabel": "Instruksi Sistem / Basis Pengetahuan",
+  "integrationsTitle": "Integrasi",
+  "integrationsDesc": "Hubungkan layanan dan alat eksternal.",
+  "testConnectionBtn": "Uji Koneksi",
+  "aiFeatureTogglesTitle": "Toggle Fitur AI",
+  "aiFeatureTogglesDesc": "Aktifkan atau nonaktifkan kemampuan AI.",
+  "saveConfigurationBtn": "Simpan Konfigurasi",
+  "allChangesSavedText": "Semua perubahan akan disimpan dan diterapkan ke agen Anda.",
+  "savedStatusText": "Disimpan",
+  "justNowText": "Baru saja"
 }
