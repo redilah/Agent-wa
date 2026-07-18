@@ -11,8 +11,10 @@ export function useWebSocket(onMessage) {
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const wsUrl = `ws://${window.location.host}/ws`;
-    const ws = new WebSocket(wsUrl);
+    try {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}/ws`;
+      const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -36,6 +38,9 @@ export function useWebSocket(onMessage) {
     ws.onerror = (err) => {
       console.error('[WS] Error:', err);
     };
+    } catch (err) {
+      console.error('[WS] Failed to connect WebSocket:', err);
+    }
   }, []);
 
   const sendMessage = useCallback((data) => {
