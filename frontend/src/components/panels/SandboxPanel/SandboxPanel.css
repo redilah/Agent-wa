@@ -182,14 +182,14 @@ input[type='range'] {
   align-self: flex-start;
   background: var(--wa-bubble-customer-bg);
   border: 1px solid var(--wa-bubble-customer-border);
-  color: #1a1a1a;
+  color: #e5e7eb;
   border-top-left-radius: 2px;
 }
 .wa-bubble.agent {
   align-self: flex-end;
   background: var(--wa-bubble-agent-bg);
   border: 1px solid var(--wa-bubble-agent-border);
-  color: #1a1a1a;
+  color: #e5e7eb;
   border-top-right-radius: 2px;
 }
 .bubble-time { font-size: 9px; color: rgba(0,0,0,0.4); margin-top: 4px; text-align: right; }

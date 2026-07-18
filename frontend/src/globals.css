@@ -9,24 +9,25 @@
 
 /* === CSS Variables — Light Theme === */
 :root {
-  --bg-dark: #f8f9fa;
-  --bg-glow-1: rgba(66, 133, 244, 0.08);
-  --bg-glow-2: rgba(66, 133, 244, 0.06);
-  --bg-glow-3: rgba(244, 180, 0, 0.04);
-  --card-bg: #ffffff;
-  --card-border: #dadce0;
-  --card-border-hover: #4285f4;
-  --text-primary: #202124;
-  --text-secondary: #5f6368;
-  --text-muted: #80868b;
-  --accent-blue: #4285f4;
-  --accent-blue-hover: #3367d6;
-  --accent-blue-glow: rgba(66, 133, 244, 0.15);
-  --accent-blue-dark: #3367d6;
-  --color-success: #4285f4;
-  --color-warning: #f4b400;
-  --color-danger: #db4437;
-  --color-info: #4285f4;
+  --bg-dark: #fbfaf8; /* Soft warm krem-putih (Claude style) */
+  --bg-glow-1: rgba(66, 133, 244, 0.04);
+  --bg-glow-2: rgba(66, 133, 244, 0.03);
+  --bg-glow-3: rgba(244, 180, 0, 0.02);
+  --card-bg: #ffffff; /* Murni putih untuk kontras tinggi di atas krem */
+  --card-border: transparent; /* Seamless borderless layout */
+  --card-border-hover: transparent;
+  --text-primary: #191919; /* Soft charcoal */
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-blue-glow: rgba(59, 130, 246, 0.08);
+  --accent-blue-dark: #2563eb;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --hover-bg: rgba(0, 0, 0, 0.05); /* Transparent dark for hover on light theme */
   --sidebar-width: 280px;
   --header-height: 80px;
   --font-sans: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -56,8 +57,8 @@ body.dark-theme {
   --bg-glow-2: rgba(66, 133, 244, 0.05);
   --bg-glow-3: rgba(244, 180, 0, 0.03);
   --card-bg: #16181c;
-  --card-border: #2c2f36;
-  --card-border-hover: #60a5fa;
+  --card-border: transparent;
+  --card-border-hover: transparent;
   --text-primary: #f3f4f6;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
@@ -69,6 +70,7 @@ body.dark-theme {
   --color-warning: #fbbf24;
   --color-danger: #f87171;
   --color-info: #60a5fa;
+  --hover-bg: rgba(255, 255, 255, 0.05); /* Transparent light for hover on dark theme */
 
   --wa-mockup-bg: #1a1a2e;
   --wa-header-bg: #0d3349;
@@ -79,6 +81,15 @@ body.dark-theme {
 
 /* === Reset & Base === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+button {
+  background: transparent;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+}
 
 html, body {
   min-height: 100%;
@@ -186,8 +197,8 @@ body {
   transition: all 0.2s ease;
 }
 .btn-secondary:hover {
-  border-color: var(--accent-blue);
-  color: var(--accent-blue);
+  background: var(--hover-bg);
+  color: var(--text-primary);
 }
 
 .btn-icon-glass {
@@ -204,8 +215,8 @@ body {
   transition: all 0.2s ease;
 }
 .btn-icon-glass:hover {
-  border-color: var(--accent-blue);
-  color: var(--accent-blue);
+  background: var(--hover-bg);
+  color: var(--text-primary);
 }
 
 .glow-button {

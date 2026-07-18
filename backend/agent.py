@@ -9,13 +9,20 @@ AI membaca riwayat chat agar konteks percakapan terjaga.
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
+# Hapus konflik variabel sistem jika ada
+if "GOOGLE_API_KEY" in os.environ and os.environ.get("GEMINI_API_KEY"):
+    del os.environ["GOOGLE_API_KEY"]
+
 from google import genai
 from google.genai import types
 from database import get_chat_history, save_message
 
 
 # Inisialisasi Gemini client
-_api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
+_api_key = os.environ.get("GEMINI_API_KEY", "").strip("\"'")
 client = genai.Client(api_key=_api_key)
 
 # Model yang digunakan

@@ -10,8 +10,8 @@ export function PricingPage() {
     <div className="min-h-screen bg-[#0e0f11] text-white p-8">
       <div className="max-w-6xl mx-auto flex flex-col gap-6">
         <button onClick={() => navigate('/')} className="btn-secondary self-start flex items-center justify-center gap-2">
-          <span className="google-symbols notranslate text-sm">arrow_back</span>
-          <span>{t('backToDashboard')}</span>
+          <span className="google-symbols notranslate text-lg font-bold">arrow_back</span>
+          <span>Back</span>
         </button>
 
         <div className="text-center my-6">

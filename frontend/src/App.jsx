@@ -12,7 +12,7 @@ import { HelpPage } from './components/Pages/HelpPage';
 import { SettingsPage } from './components/Pages/SettingsPage';
 import { useWebSocket } from './hooks/useWebSocket';
 import { useToast }     from './hooks/useToast';
-import { getSettings }  from './api/client';
+import { getSettings, registerSession }  from './api/client';
 import i18n from './i18n';
 
 export const GlobalContext = createContext(null);
@@ -35,8 +35,24 @@ export default function App() {
     return localStorage.getItem('regalia_language') || 'en';
   });
 
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('regalia_theme');
+    return saved !== 'light'; // default to true
+  });
+
   useEffect(() => {
-    document.body.classList.add('dark-theme');
+    document.body.classList.toggle('dark-theme', isDark);
+  }, [isDark]);
+
+  const toggleTheme = () => {
+    setIsDark(prev => {
+      const next = !prev;
+      localStorage.setItem('regalia_theme', next ? 'dark' : 'light');
+      return next;
+    });
+  };
+
+  useEffect(() => {
     const handlePopState = () => setCurrentPath(window.location.pathname);
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -91,8 +107,27 @@ export default function App() {
       getSettings()
         .then(setSettings)
         .catch(() => addToast('Gagal memuat settings dari server', 'error'));
+        
+      if (!localStorage.getItem('regalia_session_id')) {
+        registerSession()
+          .then(data => {
+            if (data.session_id) localStorage.setItem('regalia_session_id', data.session_id);
+          })
+          .catch(err => console.error('Failed to register session:', err));
+      }
     }
   }, [user, addToast]);
+
+  // Block Ctrl+A
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'a' || e.key === 'A')) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleLogin = (profile) => {
     setUser(profile);
@@ -112,7 +147,9 @@ export default function App() {
     language,
     changeLanguage,
     navigate,
-    addToast
+    addToast,
+    isDark,
+    toggleTheme
   };
 
   let pageContent;

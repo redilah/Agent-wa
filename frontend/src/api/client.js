@@ -1,6 +1,5 @@
-// api/client.js — Semua HTTP call ke FastAPI backend
-
-const BASE_URL = '/api'; // Diproxy Vite ke http://localhost:8000
+const API_ORIGIN = import.meta.env.VITE_API_URL || '';
+const BASE_URL = `${API_ORIGIN}/api`;
 
 export async function getSettings() {
   const res = await fetch(`${BASE_URL}/settings`);
@@ -30,3 +29,22 @@ export async function simulateChat(message) {
   }
   return res.json();
 }
+
+export async function registerSession() {
+  const res = await fetch(`${BASE_URL}/sessions/register`, { method: 'POST' });
+  if (!res.ok) throw new Error('Gagal meregister session');
+  return res.json();
+}
+
+export async function getSessions() {
+  const res = await fetch(`${BASE_URL}/sessions`);
+  if (!res.ok) throw new Error('Gagal memuat sessions');
+  return res.json();
+}
+
+export async function revokeSession(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}`, { method: 'DELETE' });
+  if (!res.ok) throw new Error('Gagal menghapus session');
+  return res.json();
+}
+

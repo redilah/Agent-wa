@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useGlobalContext } from '../../App';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { OverviewPanel }   from '../panels/OverviewPanel/OverviewPanel';
 import { ConfigPanel }     from '../panels/ConfigPanel/ConfigPanel';
@@ -27,8 +28,8 @@ export function Dashboard({
   wsLogs, sendWsMessage,
 }) {
   const { t } = useTranslation();
+  const { isDark, toggleTheme } = useGlobalContext();
   const [activePanel, setActivePanel] = useState('overview');
-  const [isDark, setIsDark] = useState(true); // default dark
   const [isLoading, setIsLoading] = useState(false);
   const [displayPanel, setDisplayPanel] = useState('overview');
   const timerRef = useRef(null);
@@ -55,14 +56,6 @@ export function Dashboard({
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, []);
 
-  const toggleTheme = () => {
-    setIsDark(prev => {
-      const next = !prev;
-      document.body.classList.toggle('dark-theme', next);
-      return next;
-    });
-  };
-
   const meta = PANEL_META[activePanel];
 
   return (
@@ -85,11 +78,6 @@ export function Dashboard({
               <span className="pulse-indicator green"></span>
               {t('wsLive')}
             </div>
-            <button className="btn-icon-glass" onClick={toggleTheme} title="Toggle Theme">
-              <span className="google-symbols notranslate">
-                {isDark ? 'light_mode' : 'dark_mode'}
-              </span>
-            </button>
             <button className="btn-icon-glass" onClick={() => addToast(t('refreshingData'), 'info')} title="Refresh">
               <span className="google-symbols notranslate">refresh</span>
             </button>

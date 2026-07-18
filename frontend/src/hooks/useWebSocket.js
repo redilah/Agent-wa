@@ -12,14 +12,20 @@ export function useWebSocket(onMessage) {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
     try {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws`;
+      let wsUrl = import.meta.env.VITE_WS_URL;
+      if (!wsUrl) {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const host = import.meta.env.VITE_API_URL
+          ? new URL(import.meta.env.VITE_API_URL).host
+          : window.location.host;
+        wsUrl = `${protocol}//${host}/ws`;
+      }
       const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
+      wsRef.current = ws;
 
-    ws.onopen = () => {
-      console.log('[WS] Connected to ws://' + window.location.host + '/ws');
-    };
+      ws.onopen = () => {
+        console.log('[WS] Connected to ' + wsUrl);
+      };
 
     ws.onmessage = (event) => {
       try {

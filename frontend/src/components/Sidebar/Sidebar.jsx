@@ -128,7 +128,7 @@ export function Sidebar({ activePanel, onPanelChange, user, onLogout }) {
                         setTimeout(() => setIsDropdownOpen(false), 200);
                       }}
                     >
-                      <span>{lang.label}</span>
+                      <span className="notranslate" translate="no">{lang.label}</span>
                       {language === lang.id && (
                         <span className="google-symbols notranslate check-icon text-blue-500">check</span>
                       )}

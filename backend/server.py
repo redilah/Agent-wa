@@ -22,11 +22,11 @@ from fastapi.responses import PlainTextResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 
-# Load .env jika ada
-load_dotenv()
+# Load .env jika ada (pakai override=True agar mengabaikan environment variable Windows jika ada)
+load_dotenv(override=True)
 
 # Import modul internal
-from database import init_db, get_client_by_phone_id, get_first_client, get_any_first_client, get_client_by_id, get_connection
+from database import init_db, get_client_by_phone_id, get_first_client, get_any_first_client, get_client_by_id, get_connection, save_active_session, get_active_sessions, revoke_active_session, update_client_settings
 from whatsapp import parse_incoming_message, send_text_message, mark_as_read
 from agent import get_ai_response
 from pydantic import BaseModel
@@ -163,6 +163,65 @@ async def health_check():
 
 
 # ------------------------------------------
+# Active Sessions API
+# ------------------------------------------
+
+import uuid
+from user_agents import parse
+import httpx
+
+@app.post("/api/sessions/register")
+async def register_session(request: Request):
+    """Mendaftarkan sesi baru dari frontend."""
+    # Ambil IP address
+    ip_address = request.headers.get("X-Forwarded-For") or request.client.host
+    if not ip_address:
+        ip_address = "Unknown"
+        
+    # Ambil dan parse User-Agent
+    user_agent_str = request.headers.get("User-Agent", "")
+    ua = parse(user_agent_str)
+    
+    os_info = f"{ua.os.family}"
+    browser_info = f"{ua.browser.family}"
+    device_info = f"{os_info} • {browser_info}"
+    
+    # Ambil lokasi dari IP (menggunakan ip-api.com)
+    location = "Unknown Location"
+    try:
+        if ip_address not in ("127.0.0.1", "::1", "localhost"):
+            async with httpx.AsyncClient(timeout=3.0) as client:
+                res = await client.get(f"http://ip-api.com/json/{ip_address}")
+                if res.status_code == 200:
+                    data = res.json()
+                    if data.get("status") == "success":
+                        location = f"{data.get('city', '')}, {data.get('country', '')}".strip(", ")
+        else:
+            location = "Localhost"
+    except Exception as e:
+        print(f"[Session] Gagal mendapatkan lokasi: {e}")
+        
+    session_id = str(uuid.uuid4())
+    
+    # Simpan ke DB
+    save_active_session(session_id, ip_address, device_info, location)
+    
+    return JSONResponse(content={"status": "success", "session_id": session_id})
+
+@app.get("/api/sessions")
+async def get_sessions():
+    """Mengambil daftar semua sesi aktif."""
+    sessions = get_active_sessions()
+    return JSONResponse(content={"sessions": sessions})
+
+@app.delete("/api/sessions/{session_id}")
+async def revoke_session(session_id: str):
+    """Mencabut (menghapus) sesi."""
+    revoke_active_session(session_id)
+    return JSONResponse(content={"status": "success", "message": "Session revoked"})
+
+
+# ------------------------------------------
 # Configuration API
 # ------------------------------------------
 
@@ -203,29 +262,21 @@ async def update_settings(settings: ClientSettingsUpdate):
     toggle_anger = settings.toggle_anger if settings.toggle_anger is not None else current.get("toggle_anger", 1)
     toggle_fallback = settings.toggle_fallback if settings.toggle_fallback is not None else current.get("toggle_fallback", 1)
 
-    # Lakukan update ke database
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE clients
-        SET nama_bisnis = ?,
-            wa_access_token = ?,
-            wa_phone_number_id = ?,
-            knowledge_base = ?,
-            is_active = ?,
-            toggle_slang = ?,
-            toggle_java = ?,
-            toggle_ongkir = ?,
-            toggle_anger = ?,
-            toggle_fallback = ?
-        WHERE id = ?
-    """, (nama_bisnis, wa_access_token, wa_phone_number_id, knowledge_base, is_active,
-          toggle_slang, toggle_java, toggle_ongkir, toggle_anger, toggle_fallback, client_id))
-    conn.commit()
-    conn.close()
+    updates = {
+        "nama_bisnis": nama_bisnis,
+        "wa_access_token": wa_access_token,
+        "wa_phone_number_id": wa_phone_number_id,
+        "knowledge_base": knowledge_base,
+        "is_active": is_active,
+        "toggle_slang": toggle_slang,
+        "toggle_java": toggle_java,
+        "toggle_ongkir": toggle_ongkir,
+        "toggle_anger": toggle_anger,
+        "toggle_fallback": toggle_fallback
+    }
 
-    updated_client = get_client_by_id(client_id)
-    client_dict = dict(updated_client)
+    updated_client = update_client_settings(client_id, updates)
+    client_dict = dict(updated_client) if updated_client else {}
 
     # Broadcast event pembaruan konfigurasi
     await manager.broadcast({
@@ -250,10 +301,10 @@ async def verify_webhook(request: Request):
     verify_token = os.environ.get("WA_VERIFY_TOKEN", "regalia_verify_2026")
 
     if mode == "subscribe" and token == verify_token:
-        print("[Webhook] Verifikasi berhasil ✅")
+        print("[Webhook] Verifikasi berhasil")
         return PlainTextResponse(content=challenge, status_code=200)
 
-    print("[Webhook] Verifikasi gagal ❌")
+    print("[Webhook] Verifikasi gagal")
     return PlainTextResponse(content="Forbidden", status_code=403)
 
 
